@@ -1,0 +1,17 @@
+﻿@model InternalRequestSystem.Models.Request
+
+@{
+    ViewData["Title"] = "Request Details";
+}
+
+<h2>Request Details</h2>
+
+<div>
+    <p><strong>Id:</strong> @Model.Id</p>
+    <p><strong>Title:</strong> @Model.Title</p>
+    <p><strong>Description:</strong> @Model.Description</p>
+    <p><strong>Request Type:</strong> @Model.RequestType</p>
+    <p><strong>Status:</strong> @Model.Status</p>
+</div>
+
+<a asp-action="Index">Back</a>

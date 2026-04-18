@@ -33,11 +33,21 @@ namespace InternalRequestSystem.Controllers
             }
 
             request.Id = requests.Count + 1;
-            request.Status = "Panding";
+            request.Status = "Pending";
 
             requests.Add(request);
 
             return RedirectToAction("Index");
+        }
+
+        public IActionResult Details(int id)
+        {
+            var request = requests.FirstOrDefault(r => r.Id == id);
+            if(request == null)
+            {
+                return NotFound();
+            }
+            return View(request);
         }
     }
 }

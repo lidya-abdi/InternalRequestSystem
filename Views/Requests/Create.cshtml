@@ -1,0 +1,36 @@
+﻿@model InternalRequestSystem.Models.Request
+
+@{
+		ViewData["Title"] = "Create";
+}
+
+<h2>Create Request</h2>
+
+<form asp-action="Create" method="post">
+
+	<div>
+		<label>Title</label>
+		<input asp-for="Title" />
+		<span asp-validation-for="Title"></span>
+	</div>
+	<div>
+		<label>Description</label>
+		<textarea asp-for="Description"></textarea>
+		<span asp-validation-for="Description"></span>
+	</div>
+	<div>
+		<label>Request Type</label>
+		<input asp-for="RequestType" />
+		<span asp-validation-for="RequestType"></span>
+	</div>
+
+	<button type="submit">Save</button>
+
+	</form>
+	<!--
+
+asp-for      	بيربط مع Model
+asp-action   	بيربط مع Controller
+validation  	بيعرض الأخطاء
+
+	-->

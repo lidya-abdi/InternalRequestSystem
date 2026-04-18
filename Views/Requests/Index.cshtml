@@ -1,0 +1,42 @@
+﻿@model List<InternalRequestSystem.Models.Request>
+
+@{
+    ViewData["Title"] = "Requests List";
+}
+
+<h2>Requests List</h2>
+
+<p>
+    <a asp-action="Create">Create New Request</a>
+</p>
+
+@if (Model == null || !Model.Any())
+{
+    <p>No requests found.</p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Title</th>
+                <th>Description</th>
+                <th>Request Type</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@item.Id</td>
+                    <td>@item.Title</td>
+                    <td>@item.Description</td>
+                    <td>@item.RequestType</td>
+                    <td>@item.Status</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

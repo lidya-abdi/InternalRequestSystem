@@ -5,14 +5,16 @@ namespace InternalRequestSystem.Controllers
 {
     public class RequestsController : Controller
     {
+        private static List<Request> requests = new List<Request>();
         /*
          Index  	رح تعرض كل الطلبات
         Create  	رح تعرض صفحة إنشاء طلب  
         */
         public IActionResult Index()
         {
-            return View();
+            return View(requests);
         }
+        [HttpGet]
         public IActionResult Create()
         {
             return View();
@@ -29,6 +31,12 @@ namespace InternalRequestSystem.Controllers
             {
                 return View(request);
             }
+
+            request.Id = requests.Count + 1;
+            request.Status = "Panding";
+
+            requests.Add(request);
+
             return RedirectToAction("Index");
         }
     }

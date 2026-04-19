@@ -43,13 +43,45 @@ namespace InternalRequestSystem.Controllers
         public IActionResult Details(int id)
         {
             var request = requests.FirstOrDefault(r => r.Id == id);
-            if(request == null)
+            if (request == null)
             {
                 return NotFound();
             }
             return View(request);
         }
 
-       
+        [HttpGet]
+        public IActionResult Edit(int id)
+        {
+            var request = requests.FirstOrDefault(r => r.Id == id);
+             
+            if (request == null)
+            {
+                return NotFound();
+            }
+            return View(request);
+        }
+        [HttpPost]
+        public IActionResult Edit(Request updatedRequest)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(updatedRequest);
+            }
+
+            var request = requests.FirstOrDefault(r => r.Id == updatedRequest.Id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            request.Title = updatedRequest.Title;
+            request.Description = updatedRequest.Description;
+            request.RequestType = updatedRequest.RequestType;
+            request.Status = updatedRequest.Status;
+
+            return RedirectToAction("Index");
+        }
     }
 }

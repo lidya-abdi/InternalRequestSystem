@@ -54,7 +54,7 @@ namespace InternalRequestSystem.Controllers
         public IActionResult Edit(int id)
         {
             var request = requests.FirstOrDefault(r => r.Id == id);
-             
+
             if (request == null)
             {
                 return NotFound();
@@ -80,6 +80,33 @@ namespace InternalRequestSystem.Controllers
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
             request.Status = updatedRequest.Status;
+
+            return RedirectToAction("Index");
+        }
+        [HttpGet]
+        public IActionResult Delete(int id)
+        {
+            var request = requests.FirstOrDefault(r => r.Id == id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            return View(request);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var request = requests.FirstOrDefault(r => r.Id == id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            requests.Remove(request);
 
             return RedirectToAction("Index");
         }

@@ -10,6 +10,15 @@ namespace InternalRequestSystem.Controllers
          Index  	رح تعرض كل الطلبات
         Create  	رح تعرض صفحة إنشاء طلب  
         */
+
+        private bool IsUserLoggedIn()
+        {
+            var fullName = HttpContext.Session.GetString("FullName");
+            var email = HttpContext.Session.GetString("Email");
+
+            return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email);
+        }
+
         public IActionResult Index()
         {
             return View(requests);

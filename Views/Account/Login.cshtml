@@ -1,0 +1,21 @@
+﻿@model InternalRequestSystem.Models.LoginViewModel
+
+@{
+	ViewData["Title"] = "Login";
+}
+
+<h2>Enter the System</h2>
+
+<form asp-action="Login" method="post">
+    <div>
+		<label asp-for="FullName"></label>
+        <input asp-for="FullName"/>
+		<span asp-validation-for="FullName"></span>
+    </div>
+    <div>
+        <label asp-for="Email"></label>
+        <input asp-for="Email"/>
+        <span asp-validation-for="Email"></span>
+    </div>
+    <button type="submit">Login</button>
+</form>

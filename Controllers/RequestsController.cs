@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using InternalRequestSystem.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace InternalRequestSystem.Controllers
 {
@@ -21,11 +22,22 @@ namespace InternalRequestSystem.Controllers
 
         public IActionResult Index()
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            ViewBag.FullName = HttpContext.Session.GetString("FullName");
             return View(requests);
         }
         [HttpGet]
         public IActionResult Create()
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             return View();
         }
         /*
@@ -36,6 +48,11 @@ namespace InternalRequestSystem.Controllers
         [HttpPost]
         public IActionResult Create(Request request)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(request);
@@ -43,6 +60,8 @@ namespace InternalRequestSystem.Controllers
 
             request.Id = requests.Count + 1;
             request.Status = "Pending";
+            request.SubmittedByName = HttpContext.Session.GetString("FullName") ?? "";
+            request.SubmittedByEmail = HttpContext.Session.GetString("Email") ?? "";
 
             requests.Add(request);
 
@@ -51,6 +70,11 @@ namespace InternalRequestSystem.Controllers
 
         public IActionResult Details(int id)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var request = requests.FirstOrDefault(r => r.Id == id);
             if (request == null)
             {
@@ -62,6 +86,11 @@ namespace InternalRequestSystem.Controllers
         [HttpGet]
         public IActionResult Edit(int id)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var request = requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
@@ -73,6 +102,11 @@ namespace InternalRequestSystem.Controllers
         [HttpPost]
         public IActionResult Edit(Request updatedRequest)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             if (!ModelState.IsValid)
             {
                 return View(updatedRequest);
@@ -95,6 +129,11 @@ namespace InternalRequestSystem.Controllers
         [HttpGet]
         public IActionResult Delete(int id)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var request = requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
@@ -108,6 +147,11 @@ namespace InternalRequestSystem.Controllers
         [HttpPost, ActionName("Delete")]
         public IActionResult DeleteConfirmed(int id)
         {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
             var request = requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using InternalRequestSystem.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace InternalRequestSystem.Controllers
 {
@@ -13,7 +14,7 @@ namespace InternalRequestSystem.Controllers
         [HttpPost]
         public IActionResult Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
                 return View(model);
             }

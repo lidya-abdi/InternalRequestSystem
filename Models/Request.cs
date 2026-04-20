@@ -16,5 +16,8 @@ namespace InternalRequestSystem.Models
         public string RequestType { get; set; } = string.Empty;
 
         public string Status { get; set; } = "Pending";
+
+        public string SubmittedByName { get; set; } = string.Empty;
+        public string SubmittedByEmail { get; set; } = string.Empty;
     }
 }

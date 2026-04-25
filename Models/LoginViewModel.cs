@@ -12,3 +12,4 @@ namespace InternalRequestSystem.Models
         public string Email { get; set; } = string.Empty;
     }
 }
+

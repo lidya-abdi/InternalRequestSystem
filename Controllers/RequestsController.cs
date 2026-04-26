@@ -1,16 +1,18 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using InternalRequestSystem.Models;
 using Microsoft.AspNetCore.Http;
+using InternalRequestSystem.Data;
 
 namespace InternalRequestSystem.Controllers
 {
     public class RequestsController : Controller
     {
-        private static List<Request> requests = new List<Request>();
-        /*
-         Index  	رح تعرض كل الطلبات
-        Create  	رح تعرض صفحة إنشاء طلب  
-        */
+        private readonly AppDbContext _context;
+
+        public RequestsController(AppDbContext context)
+        {
+            _context = context;
+        }
 
         private bool IsUserLoggedIn()
         {
@@ -28,7 +30,7 @@ namespace InternalRequestSystem.Controllers
             }
 
             ViewBag.FullName = HttpContext.Session.GetString("FullName");
-            return View(requests);
+            return View(_context.Requests.ToList());
         }
         [HttpGet]
         public IActionResult Create()
@@ -58,12 +60,12 @@ namespace InternalRequestSystem.Controllers
                 return View(request);
             }
 
-            request.Id = requests.Count + 1;
             request.Status = "Pending";
             request.SubmittedByName = HttpContext.Session.GetString("FullName") ?? "";
             request.SubmittedByEmail = HttpContext.Session.GetString("Email") ?? "";
 
-            requests.Add(request);
+            _context.Requests.Add(request);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -75,7 +77,7 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
             if (request == null)
             {
                 return NotFound();
@@ -91,7 +93,7 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
             {
@@ -112,7 +114,7 @@ namespace InternalRequestSystem.Controllers
                 return View(updatedRequest);
             }
 
-            var request = requests.FirstOrDefault(r => r.Id == updatedRequest.Id);
+            var request = _context.Requests.FirstOrDefault(r => r.Id == updatedRequest.Id);
 
             if (request == null)
             {
@@ -123,6 +125,8 @@ namespace InternalRequestSystem.Controllers
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
             request.Status = updatedRequest.Status;
+            
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }
@@ -134,7 +138,7 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
             {
@@ -152,14 +156,15 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            requests.Remove(request);
+            _context.Requests.Remove(request);
+            _context.SaveChanges();
 
             return RedirectToAction("Index");
         }

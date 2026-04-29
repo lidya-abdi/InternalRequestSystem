@@ -40,6 +40,8 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            ViewBag.Departments = _context.Departments.ToList();
+
             return View();
         }
         /*
@@ -57,6 +59,7 @@ namespace InternalRequestSystem.Controllers
 
             if (!ModelState.IsValid)
             {
+                ViewBag.Departments = _context.Departments.ToList();
                 return View(request);
             }
 

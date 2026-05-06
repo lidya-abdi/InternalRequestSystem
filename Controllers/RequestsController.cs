@@ -1,7 +1,8 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using InternalRequestSystem.Data;
 using InternalRequestSystem.Models;
 using Microsoft.AspNetCore.Http;
-using InternalRequestSystem.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace InternalRequestSystem.Controllers
 {
@@ -30,7 +31,11 @@ namespace InternalRequestSystem.Controllers
             }
 
             ViewBag.FullName = HttpContext.Session.GetString("FullName");
-            return View(_context.Requests.ToList());
+            return View(
+                _context.Requests
+                    .Include(r => r.Department)
+                    .ToList()
+            );
         }
         [HttpGet]
         public IActionResult Create()

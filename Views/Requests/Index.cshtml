@@ -31,7 +31,9 @@ else
                 <th>Request Type</th>
                 <th>Status</th>
                 <th>Submitted By</th>
+                <th>Department</th>
                 <th>Actions</th>
+                
             </tr>
         </thead>
         <tbody>
@@ -44,6 +46,7 @@ else
                     <td>@item.RequestType</td>
                     <td>@item.Status</td>
                     <td>@item.SubmittedByName</td>
+                    <td>@item.Department?.DepartmentName</td>
                     <td>
                         <a asp-action="Details" asp-route-id="@item.Id">Details</a> | 
                         <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> | 
@@ -53,6 +56,7 @@ else
                             Delete
                         </a>
                     </td>
+                    
                 </tr>
             }
         </tbody>

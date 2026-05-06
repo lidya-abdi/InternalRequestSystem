@@ -21,5 +21,7 @@ namespace InternalRequestSystem.Models
 
         public List<Request> Requests { get; set; } = new List<Request>();
 
+        public List<Approval> Approvals { get; set; } = new List<Approval>();
+
     }
 }

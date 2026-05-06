@@ -22,5 +22,10 @@ namespace InternalRequestSystem.Models
         // Foreign key for Department association (Department 1 ---- * Requests)
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
+
+        public int? UserId { get; set; }
+        public AppUser? User { get; set; }
+
+        public List<Approval> Approvals { get; set; } = new List<Approval>();
     }
 }

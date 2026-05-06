@@ -11,6 +11,25 @@ namespace InternalRequestSystem.Data
         public DbSet<Request> Requests { get; set; }
         public DbSet<Department> Departments { get; set; }
         public DbSet<Role> Roles { get; set; }
-        public DbSet<AppUser> AppUsers { get; set; } 
+        public DbSet<AppUser> AppUsers { get; set; }
+
+        public DbSet<Approval> Approvals { get; set; }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<Approval>()
+                .HasOne(a => a.Request)
+                .WithMany(r => r.Approvals)
+                .HasForeignKey(a => a.RequestId)
+                .OnDelete(DeleteBehavior.NoAction);
+
+            modelBuilder.Entity<Approval>()
+                .HasOne(a => a.ApprovedByUser)
+                .WithMany(u => u.Approvals)
+                .HasForeignKey(a => a.ApprovedByUserId)
+                .OnDelete(DeleteBehavior.NoAction);
+        }
     }
 }

@@ -1,0 +1,70 @@
+﻿@model List<InternalRequestSystem.Models.RequestLog>
+
+@{
+    ViewData["Title"] = "Activity Logs";
+}
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <div>
+        <h2 class="fw-bold mb-1">Activity Logs</h2>
+        <p class="text-muted mb-0">
+            Track create, update, and delete actions performed on requests.
+        </p>
+    </div>
+
+    <a asp-action="Index" class="btn btn-outline-secondary">
+        Back to Requests
+    </a>
+</div>
+
+@if (Model == null || !Model.Any())
+{
+    <div class="alert alert-info">
+        No activity logs found.
+    </div>
+}
+else
+{
+    <div class="table-responsive">
+        <table class="table table-hover align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Action</th>
+                    <th>Description</th>
+                    <th>Performed By</th>
+                    <th>Date</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                @foreach (var log in Model)
+                {
+                    <tr>
+                        <td>
+                            @if (log.Action == "Created")
+                            {
+                                <span class="badge bg-success">Created</span>
+                            }
+                            else if (log.Action == "Updated")
+                            {
+                                <span class="badge bg-warning text-dark">Updated</span>
+                            }
+                            else if (log.Action == "Deleted")
+                            {
+                                <span class="badge bg-danger">Deleted</span>
+                            }
+                            else
+                            {
+                                <span class="badge bg-secondary">@log.Action</span>
+                            }
+                        </td>
+
+                        <td>@log.Description</td>
+                        <td>@log.PerformedBy</td>
+                        <td>@log.ActionDate.ToString("dd.MM.yyyy HH:mm")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+}

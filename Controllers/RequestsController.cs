@@ -222,5 +222,19 @@ namespace InternalRequestSystem.Controllers
 
             return RedirectToAction("Index");
         }
+
+        public IActionResult Logs()
+        {
+            if (!IsUserLoggedIn())
+            {
+                return RedirectToAction("Login", "Account");
+            }
+
+            var logs = _context.RequestLogs
+                .OrderByDescending(l => l.ActionDate)
+                .ToList();
+
+            return View(logs);
+        }
     }
 }

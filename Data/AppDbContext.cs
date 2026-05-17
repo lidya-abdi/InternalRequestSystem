@@ -14,6 +14,7 @@ namespace InternalRequestSystem.Data
         public DbSet<AppUser> AppUsers { get; set; }
 
         public DbSet<Approval> Approvals { get; set; }
+        public DbSet<RequestLog> RequestLogs { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

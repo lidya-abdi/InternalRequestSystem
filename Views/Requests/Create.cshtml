@@ -1,47 +1,90 @@
-﻿<!-- BEFORE BOOTSTRAP -->
-
-@model InternalRequestSystem.Models.Request
+﻿@model InternalRequestSystem.Models.Request
 
 @{
-		ViewData["Title"] = "Create";
+    ViewData["Title"] = "Create Request";
 }
 
-<h2>Create Request</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<form asp-action="Create" method="post">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Create Request</h2>
+                <p class="text-muted mb-0">
+                    Fill in the request details below.
+                </p>
+            </div>
 
-	<div>
-		<label>Title</label>
-		<input asp-for="Title" />
-		<span asp-validation-for="Title"></span>
-	</div>
-	<div>
-		<label>Description</label>
-		<textarea asp-for="Description"></textarea>
-		<span asp-validation-for="Description"></span>
-	</div>
-	<div>
-		<label>Request Type</label>
-		<input asp-for="RequestType" />
-		<span asp-validation-for="RequestType"></span>
-	</div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Back to List
+            </a>
+        </div>
 
-	<div class="mb-3">
-		<label asp-for="DepartmentId" class="form-control"></label>
-		<select asp-for="DepartmentId" class="form-control">
-			<option value="">-- Select Department --</option>
-			@foreach(var dept in ViewBag.Departments)
-			{
-				<option value="@dept.Id">@dept.DepartmentName</option>
-			}
-		</select>
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
 
-		<span asp-validation-for="DepartmentId" class="text-danger"></span>
-	</div>
+                <form asp-action="Create" method="post">
 
-	<button type="submit">Save</button>
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
 
-	</form>
+                        <input asp-for="Title" class="form-control" />
+
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+
+                        <textarea asp-for="Description"
+                                  class="form-control"
+                                  rows="4"></textarea>
+
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="RequestType" class="form-label"></label>
+
+                        <input asp-for="RequestType" class="form-control" />
+
+                        <span asp-validation-for="RequestType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="DepartmentId" class="form-label"></label>
+
+                        <select asp-for="DepartmentId" class="form-select">
+
+                            <option value="">
+                                -- Select Department --
+                            </option>
+
+                            @foreach (var dept in ViewBag.Departments)
+                            {
+                                <option value="@dept.Id">
+                                    @dept.DepartmentName
+                                </option>
+                            }
+
+                        </select>
+
+                        <span asp-validation-for="DepartmentId" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-success">
+                            Save Request
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>
 	<!--
 
 asp-for      	بيربط مع Model

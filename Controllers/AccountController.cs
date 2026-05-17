@@ -24,7 +24,7 @@ namespace InternalRequestSystem.Controllers
             HttpContext.Session.SetString("Email", model.Email);
 
             // Redirect to the request submission page after successful login
-            return RedirectToAction("Index", "Requests");
+            return RedirectToAction("Index", "Home");
         }
         public IActionResult Logout()
         {

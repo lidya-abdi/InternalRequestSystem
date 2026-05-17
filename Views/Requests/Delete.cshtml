@@ -1,26 +1,98 @@
-﻿<!-- BEFORE BOOTSTRAP -->
-
-@model InternalRequestSystem.Models.Request
+﻿@model InternalRequestSystem.Models.Request
 
 @{
-	ViewData["Title"] = "Delete Request";
+    ViewData["Title"] = "Delete Request";
 }
 
-<h2>Delete Request</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<p>Are you sure you want to delete this request?</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1 text-danger">Delete Request</h2>
+                <p class="text-muted mb-0">
+                    Please confirm before deleting this request.
+                </p>
+            </div>
 
-<div>
-    <p><strong>Id:</strong> @Model.Id</p>
-    <p><strong>Title:</strong> @Model.Title</p>
-    <p><strong>Description:</strong> @Model.Description</p>
-    <p><strong>Request Type:</strong> @Model.RequestType</p>
-    <p><strong>Status:</strong> @Model.Status</p>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Back to List
+            </a>
+        </div>
+
+        <div class="alert alert-danger">
+            <strong>Warning:</strong> Are you sure you want to delete this request? This action cannot be undone.
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Request ID</div>
+                    <div class="col-md-8">@Model.Id</div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Title</div>
+                    <div class="col-md-8">@Model.Title</div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Description</div>
+                    <div class="col-md-8">@Model.Description</div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">Request Type</div>
+                    <div class="col-md-8">@Model.RequestType</div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-4">
+                    <div class="col-md-4 fw-bold">Status</div>
+                    <div class="col-md-8">
+                        @if (Model.Status == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">Pending</span>
+                        }
+                        else if (Model.Status == "Approved")
+                        {
+                            <span class="badge bg-success">Approved</span>
+                        }
+                        else if (Model.Status == "Rejected")
+                        {
+                            <span class="badge bg-danger">Rejected</span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">@Model.Status</span>
+                        }
+                    </div>
+                </div>
+
+                <form asp-action="Delete" method="post">
+                    <input type="hidden" asp-for="Id" />
+
+                    <div class="d-flex gap-2">
+                        <button type="submit" class="btn btn-danger">
+                            Delete Request
+                        </button>
+
+                        <a asp-action="Index" class="btn btn-outline-secondary">
+                            Cancel
+                        </a>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+
+    </div>
 </div>
-
-<form asp-action="Delete" method="post">
-    <input type="hidden" asp-for="Id" />
-    <button type="submit">Delete</button>
-</form>
-
-<a asp-action="Index">Back</a>

@@ -1,8 +1,78 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "Dashboard";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="mb-4">
+    <h2 class="fw-bold mb-1">Dashboard</h2>
+    <p class="text-muted mb-0">
+        Overview of internal requests and approval status.
+    </p>
+</div>
+
+<div class="row g-4">
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm bg-primary text-white">
+            <div class="card-body">
+                <p class="mb-1">Total Requests</p>
+                <h3 class="fw-bold mb-0">@ViewBag.TotalRequests</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm bg-warning text-dark">
+            <div class="card-body">
+                <p class="mb-1">Pending</p>
+                <h3 class="fw-bold mb-0">@ViewBag.PendingRequests</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm bg-success text-white">
+            <div class="card-body">
+                <p class="mb-1">Approved</p>
+                <h3 class="fw-bold mb-0">@ViewBag.ApprovedRequests</h3>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6 col-xl-3">
+        <div class="card border-0 shadow-sm bg-danger text-white">
+            <div class="card-body">
+                <p class="mb-1">Rejected</p>
+                <h3 class="fw-bold mb-0">@ViewBag.RejectedRequests</h3>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+<div class="row g-4 mt-1">
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <p class="text-muted mb-1">Departments</p>
+                <h3 class="fw-bold">@ViewBag.DepartmentsCount</h3>
+                <p class="mb-0 text-muted">
+                    Active departments used for request classification.
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-6">
+        <div class="card border-0 shadow-sm">
+            <div class="card-body">
+                <p class="text-muted mb-1">Quick Action</p>
+                <h5 class="fw-bold">Create a new internal request</h5>
+                <a asp-controller="Requests" asp-action="Create" class="btn btn-dark mt-2">
+                    + New Request
+                </a>
+            </div>
+        </div>
+    </div>
+
 </div>

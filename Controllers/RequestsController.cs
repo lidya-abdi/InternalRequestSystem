@@ -23,7 +23,7 @@ namespace InternalRequestSystem.Controllers
             return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email);
         }
 
-        public IActionResult Index()
+        public IActionResult Index(string? searchText, string? statusFilter, int? departmentFilter)
         {
             if (!IsUserLoggedIn())
             {
@@ -31,12 +31,37 @@ namespace InternalRequestSystem.Controllers
             }
 
             ViewBag.FullName = HttpContext.Session.GetString("FullName");
-            return View(
-                _context.Requests
-                    .Include(r => r.Department)
-                    .ToList()
-            );
+
+            var requests = _context.Requests
+                .Include(r => r.Department)
+                .AsQueryable();
+
+            if (!string.IsNullOrWhiteSpace(searchText))
+            {
+                requests = requests.Where(r =>
+                    r.Title.Contains(searchText) ||
+                    r.Description.Contains(searchText) ||
+                    r.RequestType.Contains(searchText));
+            }
+
+            if (!string.IsNullOrWhiteSpace(statusFilter))
+            {
+                requests = requests.Where(r => r.Status == statusFilter);
+            }
+
+            if (departmentFilter.HasValue)
+            {
+                requests = requests.Where(r => r.DepartmentId == departmentFilter.Value);
+            }
+
+            ViewBag.SearchText = searchText;
+            ViewBag.StatusFilter = statusFilter;
+            ViewBag.DepartmentFilter = departmentFilter;
+            ViewBag.Departments = _context.Departments.ToList();
+
+            return View(requests.ToList());
         }
+
         [HttpGet]
         public IActionResult Create()
         {

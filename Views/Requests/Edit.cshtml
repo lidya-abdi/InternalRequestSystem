@@ -1,38 +1,74 @@
-﻿<!-- BEFORE BOOTSTRAP -->
-
-@model InternalRequestSystem.Models.Request
+﻿@model InternalRequestSystem.Models.Request
 
 @{
-		ViewData["Title"] = "Edit Request";
+    ViewData["Title"] = "Edit Request";
 }
 
-<h2>Edit Request</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<form asp-action="Edit" method="post">
-	<input type="hidden" asp-for="Id" />
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Edit Request</h2>
+                <p class="text-muted mb-0">
+                    Update the request information below.
+                </p>
+            </div>
 
-	<div>
-		<label>Title</label>
-		<input asp-for="Title" />
-		<span asp-validation-for="Title"></span>
-	</div>
-	<div>
-		<label>Description</label>
-		<textarea asp-for="Description"></textarea>
-		<span asp-validation-for="Description"></span>
-	</div>
-	<div>
-		<label>Request Type</label>
-		<input asp-for="RequestType" />
-		<span asp-validation-for="RequestType"></span>
-	</div>
-	<div>
-		<label>Status</label>
-		<input asp-for="Status" />
-	</div>
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Back to List
+            </a>
+        </div>
 
-	<button type="submit">Update</button>
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
 
-</form>
+                <form asp-action="Edit" method="post">
+                    <input type="hidden" asp-for="Id" />
 
-<a asp-action="Index">Back</a>
+                    <div class="mb-3">
+                        <label asp-for="Title" class="form-label"></label>
+                        <input asp-for="Title" class="form-control" />
+                        <span asp-validation-for="Title" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description"
+                                  class="form-control"
+                                  rows="4"></textarea>
+                        <span asp-validation-for="Description" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="RequestType" class="form-label"></label>
+                        <input asp-for="RequestType" class="form-control" />
+                        <span asp-validation-for="RequestType" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-4">
+                        <label asp-for="Status" class="form-label"></label>
+
+                        <select asp-for="Status" class="form-select">
+                            <option value="Pending">Pending</option>
+                            <option value="In Review">In Review</option>
+                            <option value="Approved">Approved</option>
+                            <option value="Rejected">Rejected</option>
+                        </select>
+
+                        <span asp-validation-for="Status" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-warning">
+                            Update Request
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
+    </div>
+</div>

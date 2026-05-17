@@ -15,6 +15,95 @@ namespace InternalRequestSystem.Controllers
             _context = context;
         }
 
+            [HttpPost]
+            public IActionResult Approve(int id)
+            {
+                var request = _context.Requests.FirstOrDefault(r => r.Id == id);
+
+                if (request == null)
+                {
+                    return NotFound();
+                }
+
+                request.Status = "Approved";
+
+                var approval = new Approval
+                {
+                    RequestId = request.Id,
+                    Decision = "Approved",
+                    ApprovedByUserId = null,
+                    Comment = "Request approved successfully."
+                };
+
+                _context.Approvals.Add(approval);
+
+                AddRequestLog(
+                    request.Id,
+                    "Approved",
+                    $"Request '{request.Title}' was approved."
+                );
+
+                _context.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+
+            [HttpPost]
+            public IActionResult Reject(int id)
+            {
+                var request = _context.Requests.FirstOrDefault(r => r.Id == id);
+
+                if (request == null)
+                {
+                    return NotFound();
+                }
+
+                request.Status = "Rejected";
+
+            var approval = new Approval
+            {
+                RequestId = request.Id,
+                Decision = "Rejected",
+                ApprovedByUserId = null,
+                Comment = "Request rejected."
+            };
+
+            _context.Approvals.Add(approval);
+
+            AddRequestLog(
+                request.Id,
+                "Rejected",
+                $"Request '{request.Title}' was rejected."
+            );
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult MarkInReview(int id)
+        {
+            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            request.Status = "In Review";
+
+            AddRequestLog(
+                request.Id,
+                "In Review",
+                $"Request '{request.Title}' moved to review stage."
+            );
+
+            _context.SaveChanges();
+
+            return RedirectToAction("Index");
+        }
+
         private bool IsUserLoggedIn()
         {
             var fullName = HttpContext.Session.GetString("FullName");

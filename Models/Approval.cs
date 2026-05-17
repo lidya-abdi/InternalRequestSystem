@@ -9,7 +9,7 @@ namespace InternalRequestSystem.Models
         public int RequestId { get; set; }
         public Request? Request { get; set; }
 
-        public int ApprovedByUserId { get; set; }
+        public int? ApprovedByUserId { get; set; }
         public AppUser? ApprovedByUser { get; set; }
 
         [Required]

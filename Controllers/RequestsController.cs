@@ -23,6 +23,20 @@ namespace InternalRequestSystem.Controllers
             return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email);
         }
 
+        private void AddRequestLog(int? requestId, string action, string description)
+        {
+            var log = new RequestLog
+            {
+                RequestId = requestId,
+                Action = action,
+                Description = description,
+                PerformedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User",
+                ActionDate = DateTime.Now
+            };
+
+            _context.RequestLogs.Add(log);
+        }
+
         public IActionResult Index(string? searchText, string? statusFilter, int? departmentFilter)
         {
             if (!IsUserLoggedIn())
@@ -100,6 +114,9 @@ namespace InternalRequestSystem.Controllers
             _context.Requests.Add(request);
             _context.SaveChanges();
 
+            AddRequestLog(request.Id, "Created", $"Request '{request.Title}' was created.");
+            _context.SaveChanges();
+
             return RedirectToAction("Index");
         }
 
@@ -158,7 +175,9 @@ namespace InternalRequestSystem.Controllers
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
             request.Status = updatedRequest.Status;
-            
+
+            AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.");
+
             _context.SaveChanges();
 
             return RedirectToAction("Index");
@@ -195,6 +214,8 @@ namespace InternalRequestSystem.Controllers
             {
                 return NotFound();
             }
+
+            AddRequestLog(request.Id, "Deleted", $"Request '{request.Title}' was deleted.");
 
             _context.Requests.Remove(request);
             _context.SaveChanges();

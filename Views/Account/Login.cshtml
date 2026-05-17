@@ -1,24 +1,47 @@
-﻿<!-- BEFORE BOOTSTRAP-->
-
-
-@model InternalRequestSystem.Models.LoginViewModel
+﻿@model InternalRequestSystem.Models.LoginViewModel
 
 @{
-	ViewData["Title"] = "Login";
+    ViewData["Title"] = "Login";
 }
 
-<h2>Enter the System</h2>
+<div class="row justify-content-center">
+    <div class="col-md-6">
 
-<form asp-action="Login" method="post">
-    <div>
-		<label asp-for="FullName"></label>
-        <input asp-for="FullName"/>
-		<span asp-validation-for="FullName"></span>
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <h2 class="text-center mb-4 fw-bold">
+                    Enter the System
+                </h2>
+
+                <form asp-action="Login" method="post">
+
+                    <div class="mb-3">
+                        <label asp-for="FullName" class="form-label"></label>
+
+                        <input asp-for="FullName" class="form-control" />
+
+                        <span asp-validation-for="FullName" class="text-danger"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Email" class="form-label"></label>
+
+                        <input asp-for="Email" class="form-control" />
+
+                        <span asp-validation-for="Email" class="text-danger"></span>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-dark">
+                            Login
+                        </button>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+
     </div>
-    <div>
-        <label asp-for="Email"></label>
-        <input asp-for="Email"/>
-        <span asp-validation-for="Email"></span>
-    </div>
-    <button type="submit">Login</button>
-</form>
+</div>

@@ -1,21 +1,151 @@
-﻿<!-- BEFORE BOOTSTRAP-->
-
-@model InternalRequestSystem.Models.Request
+﻿@model InternalRequestSystem.Models.Request
 
 @{
     ViewData["Title"] = "Request Details";
 }
 
-<h2>Request Details</h2>
+<div class="row justify-content-center">
+    <div class="col-lg-8">
 
-<div>
-    <p><strong>Id:</strong> @Model.Id</p>
-    <p><strong>Title:</strong> @Model.Title</p>
-    <p><strong>Description:</strong> @Model.Description</p>
-    <p><strong>Request Type:</strong> @Model.RequestType</p>
-    <p><strong>Status:</strong> @Model.Status</p>
-    <p><strong>Submitted By:</strong> @Model.SubmittedByName</p>
-    <p><strong>Email:</strong> @Model.SubmittedByEmail</p>
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h2 class="fw-bold mb-1">Request Details</h2>
+                <p class="text-muted mb-0">
+                    Detailed information about the selected request.
+                </p>
+            </div>
+
+            <a asp-action="Index" class="btn btn-outline-secondary">
+                Back to List
+            </a>
+        </div>
+
+        <div class="card shadow-sm border-0">
+            <div class="card-body p-4">
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Request ID
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.Id
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Title
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.Title
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Description
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.Description
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Request Type
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.RequestType
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Status
+                    </div>
+
+                    <div class="col-md-8">
+
+                        @if (Model.Status == "Pending")
+                        {
+                            <span class="badge bg-warning text-dark">
+                                Pending
+                            </span>
+                        }
+                        else if (Model.Status == "Approved")
+                        {
+                            <span class="badge bg-success">
+                                Approved
+                            </span>
+                        }
+                        else if (Model.Status == "Rejected")
+                        {
+                            <span class="badge bg-danger">
+                                Rejected
+                            </span>
+                        }
+                        else
+                        {
+                            <span class="badge bg-secondary">
+                                @Model.Status
+                            </span>
+                        }
+
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-3">
+                    <div class="col-md-4 fw-bold">
+                        Submitted By
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.SubmittedByName
+                    </div>
+                </div>
+
+                <hr />
+
+                <div class="row mb-4">
+                    <div class="col-md-4 fw-bold">
+                        Email
+                    </div>
+
+                    <div class="col-md-8">
+                        @Model.SubmittedByEmail
+                    </div>
+                </div>
+
+                <div class="d-flex gap-2">
+                    <a asp-action="Edit"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-warning">
+                        Edit Request
+                    </a>
+
+                    <a asp-action="Delete"
+                       asp-route-id="@Model.Id"
+                       class="btn btn-danger">
+                        Delete Request
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
 </div>
-
-<a asp-action="Index">Back</a>

@@ -216,11 +216,20 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests
+                .Include(r => r.Department)
+                .FirstOrDefault(r => r.Id == id);
+
             if (request == null)
             {
                 return NotFound();
             }
+
+            ViewBag.RequestLogs = _context.RequestLogs
+                .Where(l => l.RequestId == id)
+                .OrderByDescending(l => l.ActionDate)
+                .ToList();
+
             return View(request);
         }
 

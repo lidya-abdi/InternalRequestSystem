@@ -4,7 +4,7 @@
     ViewData["Title"] = "Request Details";
 }
 
-<div class="row justify-content-center">
+<div class="row">
     <div class="col-lg-8">
 
         <div class="d-flex justify-content-between align-items-center mb-4">
@@ -147,5 +147,56 @@
             </div>
         </div>
 
+
+
     </div>
+
+    <div class="col-lg-4">
+
+        <div class="card shadow-sm border-0 sticky-top" style="top: 20px;">
+
+            <div class="card-header bg-dark text-white">
+                Activity Timeline
+            </div>
+
+            <div class="card-body" style="max-height: 600px; overflow-y: auto; padding-top: 1.5rem;">
+
+                @{
+                    var logs = ViewBag.RequestLogs as List<InternalRequestSystem.Models.RequestLog>;
+                }
+
+                @if (logs != null && logs.Any())
+                {
+                    @foreach (var log in logs)
+                    {
+                        <div class="mb-4 border-start border-3 ps-3">
+
+                            <h6 class="fw-bold mb-1">
+                                @log.Action
+                            </h6>
+
+                            <small class="text-muted">
+                                @log.ActionDate.ToString("dd.MM.yyyy HH:mm")
+                            </small>
+
+                            <p class="mb-0 mt-1">
+                                @log.Description
+                            </p>
+
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p class="text-muted">
+                        No activity found.
+                    </p>
+                }
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

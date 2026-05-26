@@ -94,3 +94,27 @@ body {
     border-radius: 999px;
     padding: 0.45em 0.75em;
 }
+
+.timeline-item {
+    position: relative;
+    padding-left: 2rem;
+    padding-bottom: 1.5rem;
+    border-left: 2px solid #e5e7eb;
+}
+
+    .timeline-item:last-child {
+        border-left: 2px solid transparent;
+    }
+
+.timeline-dot {
+    position: absolute;
+    left: -9px;
+    top: 4px;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+}
+
+.timeline-content {
+    margin-top: -2px;
+}

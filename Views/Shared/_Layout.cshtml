@@ -31,6 +31,7 @@
                 <div>
                     <div class="sidebar-top">
                         <div class="sidebar-header">
+
                             <a class="sidebar-brand"
                                asp-controller="Home"
                                asp-action="Index">
@@ -43,11 +44,48 @@
                                 </div>
                             </a>
 
-                            <button type="button"
-                                    class="sidebar-toggle"
-                                    id="sidebarToggle">
-                                ☰
-                            </button>
+                            <div class="d-flex align-items-center gap-2">
+
+                                <div class="dropdown">
+
+                                    <button class="notification-btn"
+                                            type="button"
+                                            data-bs-toggle="dropdown">
+                                        <i class="bi bi-bell"></i>
+                                    </button>
+
+                                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown shadow border-0">
+
+                                        <li class="dropdown-header fw-bold">
+                                            Notifications
+                                        </li>
+
+                                        <li>
+                                            <a class="dropdown-item small" asp-controller="Requests" asp-action="Logs">
+                                                View latest activities
+                                            </a>
+                                        </li>
+
+                                        <li><hr class="dropdown-divider"></li>
+
+                                        <li>
+                                            <span class="dropdown-item-text small text-muted">
+                                                Request updates appear here.
+                                            </span>
+                                        </li>
+
+                                    </ul>
+
+                                </div>
+
+                                <button type="button"
+                                        class="sidebar-toggle"
+                                        id="sidebarToggle">
+                                    ☰
+                                </button>
+
+                            </div>
+
                         </div>
                     </div>
 

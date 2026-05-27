@@ -102,6 +102,25 @@
             <div class="app-page">
                 <main class="app-main container-fluid">
                     <div class="app-content-card">
+                        @if (TempData["SuccessMessage"] != null)
+                        {
+                            <div class="toast-container position-fixed top-0 end-0 p-3">
+                                <div class="toast align-items-center text-bg-success border-0" id="successToast"
+                                     role="alert">
+                                    <div class="d-flex">
+                                        <div class="toast-body">
+                                            @TempData["SuccessMessage"]
+                                        </div>
+
+                                        <button type="button"
+                                                class="btn-close btn-close-white me-2 m-auto"
+                                                data-bs-dismiss="toast">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+
                         @RenderBody()
                     </div>
                 </main>
@@ -137,9 +156,22 @@
     @if (isLoggedIn)
     {
         <script>
+
             document.getElementById("sidebarToggle").addEventListener("click", function () {
                 document.querySelector(".app-layout").classList.toggle("sidebar-collapsed");
             });
+
+            const toastElement = document.getElementById('successToast');
+
+            if (toastElement) {
+
+                const toast = new bootstrap.Toast(toastElement, {
+                    delay: 3000
+                });
+
+                toast.show();
+            }
+
         </script>
     }
 

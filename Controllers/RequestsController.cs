@@ -45,6 +45,8 @@ namespace InternalRequestSystem.Controllers
 
                 _context.SaveChanges();
 
+                TempData["SuccessMessage"] = "Request approved successfully.";
+    
                 return RedirectToAction("Index");
             }
 
@@ -78,6 +80,8 @@ namespace InternalRequestSystem.Controllers
 
             _context.SaveChanges();
 
+            TempData["SuccessMessage"] = "Request rejected successfully.";
+
             return RedirectToAction("Index");
         }
 
@@ -100,6 +104,8 @@ namespace InternalRequestSystem.Controllers
             );
 
             _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Request moved to review successfully.";
 
             return RedirectToAction("Index");
         }
@@ -206,6 +212,8 @@ namespace InternalRequestSystem.Controllers
             AddRequestLog(request.Id, "Created", $"Request '{request.Title}' was created.");
             _context.SaveChanges();
 
+            TempData["SuccessMessage"] = "Request created successfully.";
+
             return RedirectToAction("Index");
         }
 
@@ -278,6 +286,8 @@ namespace InternalRequestSystem.Controllers
 
             _context.SaveChanges();
 
+            TempData["SuccessMessage"] = "Request updated successfully.";
+
             return RedirectToAction("Index");
         }
         [HttpGet]
@@ -317,6 +327,8 @@ namespace InternalRequestSystem.Controllers
 
             _context.Requests.Remove(request);
             _context.SaveChanges();
+
+            TempData["SuccessMessage"] = "Request deleted successfully.";
 
             return RedirectToAction("Index");
         }

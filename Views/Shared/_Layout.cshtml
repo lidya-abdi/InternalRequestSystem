@@ -48,23 +48,35 @@
 
                     <nav class="sidebar-nav">
 
-                        <button class="sidebar-link notification-link"
-                                type="button"
-                                data-bs-toggle="dropdown">
-                            <i class="bi bi-bell sidebar-icon"></i>
-                            <span>Notifications</span>
-                        </button>
+                        <div class="notification-wrapper">
 
-                        <ul class="dropdown-menu notification-dropdown shadow border-0">
-                            <li class="dropdown-header fw-bold">Notifications</li>
-                            <li>
-                                <a class="dropdown-item small"
-                                   asp-controller="Requests"
-                                   asp-action="Logs">
+                            <button class="sidebar-link notification-link"
+                                    type="button"
+                                    id="notificationToggle">
+
+                                <i class="bi bi-bell sidebar-icon"></i>
+
+                                <span>Notifications</span>
+
+                            </button>
+
+                            <div class="notification-popup" id="notificationPopup">
+
+                                <h6 class="fw-bold text-muted mb-3">
+                                    Notifications
+                                </h6>
+
+                                <a asp-controller="Requests"
+                                   asp-action="Logs"
+                                   class="notification-item">
+
                                     View latest activities
+
                                 </a>
-                            </li>
-                        </ul>
+
+                            </div>
+
+                        </div>
 
                         <div class="sidebar-divider"></div>
 
@@ -177,6 +189,27 @@
             document.getElementById("sidebarToggle").addEventListener("click", function () {
                 document.querySelector(".app-layout").classList.toggle("sidebar-collapsed");
             });
+
+                        const notificationToggle =
+                document.getElementById("notificationToggle");
+
+            const notificationPopup =
+                document.getElementById("notificationPopup");
+
+            if (notificationToggle && notificationPopup) {
+
+                notificationToggle.addEventListener("click", function (e) {
+
+                    e.stopPropagation();
+
+                    notificationPopup.classList.toggle("show");
+                });
+
+                document.addEventListener("click", function () {
+
+                    notificationPopup.classList.remove("show");
+                });
+            }
 
             const toastElement = document.getElementById('successToast');
 

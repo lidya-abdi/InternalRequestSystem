@@ -11,80 +11,97 @@
 
 <body class="app-body">
 
-    <header>
-        <nav class="navbar navbar-expand-lg app-navbar shadow-sm">
-            <div class="container">
-                <a class="navbar-brand fw-bold d-flex align-items-center gap-2"
+    <div class="app-layout">
+
+        <!-- SIDEBAR -->
+
+        <aside class="app-sidebar">
+
+            <div>
+
+                <a class="sidebar-brand"
                    asp-controller="Home"
                    asp-action="Index">
+
                     <span class="brand-icon">IR</span>
+
                     <span>Internal Request System</span>
+
                 </a>
 
-                <button class="navbar-toggler"
-                        type="button"
-                        data-bs-toggle="collapse"
-                        data-bs-target="#mainNavbar">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+                <nav class="sidebar-nav mt-4">
 
-                <div class="collapse navbar-collapse" id="mainNavbar">
-                    <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+                    <a asp-controller="Home"
+                       asp-action="Index"
+                       class="sidebar-link">
+                        Dashboard
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Home" asp-action="Index">
-                                Dashboard
-                            </a>
-                        </li>
+                    <a asp-controller="Requests"
+                       asp-action="Index"
+                       class="sidebar-link">
+                        Requests
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Requests" asp-action="Index">
-                                Requests
-                            </a>
-                        </li>
+                    <a asp-controller="Requests"
+                       asp-action="Logs"
+                       class="sidebar-link">
+                        Activity Logs
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="nav-link" asp-controller="Requests" asp-action="Logs">
-                                Activity Logs
-                            </a>
-                        </li>
+                    <a asp-controller="Requests"
+                       asp-action="Create"
+                       class="sidebar-link sidebar-create">
+                        + New Request
+                    </a>
 
-                        <li class="nav-item">
-                            <a class="btn btn-light btn-sm fw-semibold"
-                               asp-controller="Requests"
-                               asp-action="Create">
-                                + New Request
-                            </a>
-                        </li>
+                </nav>
 
-                        <li class="nav-item">
-                            <a class="nav-link text-warning"
-                               asp-controller="Account"
-                               asp-action="Logout">
-                                Logout
-                            </a>
-                        </li>
-
-                    </ul>
-                </div>
             </div>
-        </nav>
-    </header>
 
-    <main class="container app-main">
-        <div class="app-content-card">
-            @RenderBody()
+            <div class="sidebar-footer">
+
+                <p class="mb-2 text-white-50 small">
+                    @Context.Session.GetString("FullName")
+                </p>
+
+                <a asp-controller="Account"
+                   asp-action="Logout"
+                   class="sidebar-link logout-link">
+                    Logout
+                </a>
+
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT -->
+
+        <div class="app-page">
+
+            <main class="app-main container-fluid">
+
+                <div class="app-content-card">
+                    @RenderBody()
+                </div>
+
+            </main>
+
+            <footer class="text-center text-muted py-4">
+                <small>
+                    &copy; 2026 - Internal Request & Approval Management System
+                </small>
+            </footer>
+
         </div>
-    </main>
 
-    <footer class="text-center text-muted py-4 mt-4">
-        <small>&copy; 2026 - Internal Request & Approval Management System</small>
-    </footer>
+    </div>
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
 
     @await RenderSectionAsync("Scripts", required: false)
+
 </body>
 </html>

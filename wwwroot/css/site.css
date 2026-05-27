@@ -118,3 +118,83 @@ body {
 .timeline-content {
     margin-top: -2px;
 }
+
+.app-layout {
+    display: flex;
+    min-height: 100vh;
+}
+
+.app-sidebar {
+    width: 270px;
+    background: linear-gradient(180deg, var(--app-primary), #111827);
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    height: 100vh;
+}
+
+.sidebar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.85rem;
+    text-decoration: none;
+    color: white;
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.sidebar-link {
+    text-decoration: none;
+    color: rgba(255,255,255,0.85);
+    padding: 0.85rem 1rem;
+    border-radius: 14px;
+    transition: 0.2s ease;
+    font-weight: 500;
+}
+
+    .sidebar-link:hover {
+        background: rgba(255,255,255,0.08);
+        color: white;
+    }
+
+.sidebar-create {
+    background: white;
+    color: var(--app-primary);
+    font-weight: 700;
+}
+
+    .sidebar-create:hover {
+        background: #f3f4f6;
+        color: black;
+    }
+
+.logout-link {
+    color: #fca5a5;
+}
+
+.app-page {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.app-main {
+    padding: 2rem;
+}
+
+.app-content-card {
+    background: white;
+    border-radius: 28px;
+    padding: 2rem;
+    min-height: calc(100vh - 140px);
+    box-shadow: 0 15px 40px rgba(15, 23, 42, 0.08);
+}

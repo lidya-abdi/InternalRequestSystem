@@ -217,6 +217,25 @@ body {
 }
 
 /* =========================
+   SIDEBAR LINK
+========================= */
+.sidebar-link.active {
+    background: rgba(255,255,255,0.14);
+    color: white;
+}
+
+    .sidebar-link.active .sidebar-icon {
+        color: white;
+    }
+
+.sidebar-create.active-create {
+    background: #e5e7eb;
+    color: #111827;
+}
+
+ 
+
+/* =========================
    PAGE
 ========================= */
 

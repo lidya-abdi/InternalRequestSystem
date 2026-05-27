@@ -28,68 +28,45 @@
 
             <aside class="app-sidebar">
 
-                <div>
-                    <div class="sidebar-top">
-                        <div class="sidebar-header">
+                <button type="button" class="sidebar-toggle" id="sidebarToggle">
+                    <i class="bi bi-list"></i>
+                </button>
 
-                            <a class="sidebar-brand"
-                               asp-controller="Home"
-                               asp-action="Index">
+                <div class="sidebar-main">
 
-                                <span class="brand-icon">IR</span>
+                    <a class="sidebar-brand"
+                       asp-controller="Home"
+                       asp-action="Index">
+                        <span class="brand-icon">IR</span>
 
-                                <div class="brand-text">
-                                    <span>Internal Request</span>
-                                    <span>System</span>
-                                </div>
-                            </a>
-
-                            <div class="d-flex align-items-center gap-2">
-
-                                <div class="dropdown">
-
-                                    <button class="notification-btn"
-                                            type="button"
-                                            data-bs-toggle="dropdown">
-                                        <i class="bi bi-bell"></i>
-                                    </button>
-
-                                    <ul class="dropdown-menu dropdown-menu-end notification-dropdown shadow border-0">
-
-                                        <li class="dropdown-header fw-bold">
-                                            Notifications
-                                        </li>
-
-                                        <li>
-                                            <a class="dropdown-item small" asp-controller="Requests" asp-action="Logs">
-                                                View latest activities
-                                            </a>
-                                        </li>
-
-                                        <li><hr class="dropdown-divider"></li>
-
-                                        <li>
-                                            <span class="dropdown-item-text small text-muted">
-                                                Request updates appear here.
-                                            </span>
-                                        </li>
-
-                                    </ul>
-
-                                </div>
-
-                                <button type="button"
-                                        class="sidebar-toggle"
-                                        id="sidebarToggle">
-                                    ☰
-                                </button>
-
-                            </div>
-
+                        <div class="brand-text">
+                            <span>Internal</span>
+                            <span>Request</span>
+                            <span>System</span>
                         </div>
-                    </div>
+                    </a>
 
                     <nav class="sidebar-nav">
+
+                        <button class="sidebar-link notification-link"
+                                type="button"
+                                data-bs-toggle="dropdown">
+                            <i class="bi bi-bell sidebar-icon"></i>
+                            <span>Notifications</span>
+                        </button>
+
+                        <ul class="dropdown-menu notification-dropdown shadow border-0">
+                            <li class="dropdown-header fw-bold">Notifications</li>
+                            <li>
+                                <a class="dropdown-item small"
+                                   asp-controller="Requests"
+                                   asp-action="Logs">
+                                    View latest activities
+                                </a>
+                            </li>
+                        </ul>
+
+                        <div class="sidebar-divider"></div>
 
                         <a asp-controller="Home"
                            asp-action="Index"
@@ -111,6 +88,8 @@
                             <i class="bi bi-clock-history sidebar-icon"></i>
                             <span>Activity Logs</span>
                         </a>
+
+                        <div class="sidebar-divider"></div>
 
                         <a asp-controller="Requests"
                            asp-action="Create"

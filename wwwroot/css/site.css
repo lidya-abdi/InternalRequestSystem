@@ -311,3 +311,20 @@ body {
 footer {
     margin-top: auto;
 }
+
+
+
+
+/* =========================
+   ICON
+========================= */
+
+.sidebar-icon {
+    font-size: 1.1rem;
+    min-width: 22px;
+    margin-right: 0.75rem;
+}
+
+.sidebar-link span {
+    white-space: nowrap;
+}

@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@{
+    var isLoggedIn =
+        !string.IsNullOrEmpty(Context.Session.GetString("FullName")) &&
+        !string.IsNullOrEmpty(Context.Session.GetString("Email"));
+}
+
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -11,95 +17,121 @@
 
 <body class="app-body">
 
-    <div class="app-layout">
+    @if (isLoggedIn)
+    {
+        <div class="app-layout">
 
-        <!-- SIDEBAR -->
+            <aside class="app-sidebar">
 
-        <aside class="app-sidebar">
+                <div>
+                    <div class="sidebar-top">
 
-            <div>
+                        <div class="sidebar-header">
+                            <a class="sidebar-brand"
+                               asp-controller="Home"
+                               asp-action="Index">
 
-                <a class="sidebar-brand"
-                   asp-controller="Home"
-                   asp-action="Index">
+                                <span class="brand-icon">IR</span>
 
-                    <span class="brand-icon">IR</span>
+                                <div class="brand-text">
+                                    <span>Internal Request</span>
+                                    <span>System</span>
+                                </div>
+                            </a>
 
-                    <span>Internal Request System</span>
+                            <button type="button"
+                                    class="sidebar-toggle"
+                                    id="sidebarToggle">
+                                ☰
+                            </button>
+                        </div>
 
-                </a>
+                    </div>
 
-                <nav class="sidebar-nav mt-4">
+                    <nav class="sidebar-nav">
+                        <a asp-controller="Home"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            Dashboard
+                        </a>
 
-                    <a asp-controller="Home"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        Dashboard
-                    </a>
+                        <a asp-controller="Requests"
+                           asp-action="Index"
+                           class="sidebar-link">
+                            Requests
+                        </a>
 
-                    <a asp-controller="Requests"
-                       asp-action="Index"
-                       class="sidebar-link">
-                        Requests
-                    </a>
+                        <a asp-controller="Requests"
+                           asp-action="Logs"
+                           class="sidebar-link">
+                            Activity Logs
+                        </a>
 
-                    <a asp-controller="Requests"
-                       asp-action="Logs"
-                       class="sidebar-link">
-                        Activity Logs
-                    </a>
-
-                    <a asp-controller="Requests"
-                       asp-action="Create"
-                       class="sidebar-link sidebar-create">
-                        + New Request
-                    </a>
-
-                </nav>
-
-            </div>
-
-            <div class="sidebar-footer">
-
-                <p class="mb-2 text-white-50 small">
-                    @Context.Session.GetString("FullName")
-                </p>
-
-                <a asp-controller="Account"
-                   asp-action="Logout"
-                   class="sidebar-link logout-link">
-                    Logout
-                </a>
-
-            </div>
-
-        </aside>
-
-        <!-- MAIN CONTENT -->
-
-        <div class="app-page">
-
-            <main class="app-main container-fluid">
-
-                <div class="app-content-card">
-                    @RenderBody()
+                        <a asp-controller="Requests"
+                           asp-action="Create"
+                           class="sidebar-link sidebar-create">
+                            + New Request
+                        </a>
+                    </nav>
                 </div>
 
-            </main>
+                <div class="sidebar-footer">
+                    <p class="mb-2 text-white-50 small">
+                        @Context.Session.GetString("FullName")
+                    </p>
 
-            <footer class="text-center text-muted py-4">
-                <small>
-                    &copy; 2026 - Internal Request & Approval Management System
-                </small>
-            </footer>
+                    <a asp-controller="Account"
+                       asp-action="Logout"
+                       class="sidebar-link logout-link">
+                        Logout
+                    </a>
+                </div>
+
+            </aside>
+
+            <div class="app-page">
+                <main class="app-main container-fluid">
+                    <div class="app-content-card">
+                        @RenderBody()
+                    </div>
+                </main>
+
+                <footer class="text-center text-muted py-4">
+                    <small>
+                        &copy; 2026 - Internal Request & Approval Management System
+                    </small>
+                </footer>
+            </div>
 
         </div>
+    }
+    else
+    {
+        <main class="container app-main">
+            <div class="app-content-card">
+                @RenderBody()
+            </div>
+        </main>
 
-    </div>
+        <footer class="text-center text-muted py-4">
+            <small>
+                &copy; 2026 - Internal Request & Approval Management System
+            </small>
+        </footer>
+    }
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    @if (isLoggedIn)
+    {
+        <script>
+            document.getElementById("sidebarToggle").addEventListener("click", function () {
+                document.querySelector(".app-layout").classList.toggle("sidebar-collapsed");
+            });
+        </script>
+    }
 
     @await RenderSectionAsync("Scripts", required: false)
 

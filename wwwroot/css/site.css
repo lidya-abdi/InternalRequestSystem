@@ -61,7 +61,7 @@ body {
 ========================= */
 
 .app-sidebar {
-    width: 285px;
+    width: 240px;
     background: linear-gradient(180deg, #0f172a, #111827);
     padding: 1.6rem;
     display: flex;
@@ -104,9 +104,9 @@ body {
     }
 
 .brand-icon {
-    width: 64px;
-    height: 64px;
-    min-width: 64px;
+    width: 54px;
+    height: 54px;
+    min-width: 54px;
     border-radius: 20px;
     background: white;
     color: #0f172a;
@@ -120,7 +120,7 @@ body {
     display: flex;
     flex-direction: column;
     line-height: 1.15;
-    font-size: 1.35rem;
+    font-size: 1.15rem;
     font-weight: 800;
 }
 

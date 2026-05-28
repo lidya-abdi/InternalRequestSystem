@@ -4,67 +4,108 @@
     ViewData["Title"] = "Activity Logs";
 }
 
-<div class="d-flex justify-content-between align-items-center mb-4">
-    <div>
-        <h2 class="fw-bold mb-1">Activity Logs</h2>
-        <p class="text-muted mb-0">
-            Track create, update, and delete actions performed on requests.
-        </p>
+<div class="logs-page">
+
+    <div class="form-header">
+        <div>
+            <span class="page-kicker">System activity</span>
+
+            <h2 class="fw-bold mb-1">
+                Activity Logs
+            </h2>
+
+            <p class="text-muted mb-0">
+                Track request actions and workflow changes in one place.
+            </p>
+        </div>
+
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to Requests
+        </a>
     </div>
 
-    <a asp-action="Index" class="btn btn-outline-secondary">
-        Back to Requests
-    </a>
+    @if (Model == null || !Model.Any())
+    {
+        <div class="empty-state">
+            <i class="bi bi-clock-history"></i>
+            <h5>No activity logs found</h5>
+            <p>Actions performed on requests will appear here.</p>
+        </div>
+    }
+    else
+    {
+        <div class="logs-card">
+
+            @foreach (var log in Model)
+            {
+                var badgeClass =
+                log.Action == "Created" ? "bg-success" :
+                log.Action == "Updated" ? "bg-warning text-dark" :
+                log.Action == "Deleted" ? "bg-danger" :
+                log.Action == "Approved" ? "bg-success" :
+                log.Action == "Rejected" ? "bg-danger" :
+                log.Action == "In Review" ? "bg-primary" :
+                "bg-secondary";
+
+                <div class="log-item">
+
+                    <div class="log-icon">
+                        @if (log.Action == "Created")
+                        {
+                            <i class="bi bi-plus-circle"></i>
+                        }
+                        else if (log.Action == "Updated")
+                        {
+                            <i class="bi bi-pencil-square"></i>
+                        }
+                        else if (log.Action == "Deleted")
+                        {
+                            <i class="bi bi-trash"></i>
+                        }
+                        else if (log.Action == "Approved")
+                        {
+                            <i class="bi bi-check-circle"></i>
+                        }
+                        else if (log.Action == "Rejected")
+                        {
+                            <i class="bi bi-x-circle"></i>
+                        }
+                        else if (log.Action == "In Review")
+                        {
+                            <i class="bi bi-hourglass-split"></i>
+                        }
+                        else
+                        {
+                            <i class="bi bi-activity"></i>
+                        }
+                    </div>
+
+                    <div class="log-content">
+                        <div class="d-flex justify-content-between align-items-start gap-3">
+                            <div>
+                                <span class="badge @badgeClass mb-2">
+                                    @log.Action
+                                </span>
+
+                                <p class="mb-1 fw-semibold">
+                                    @log.Description
+                                </p>
+
+                                <small class="text-muted">
+                                    Performed by @log.PerformedBy
+                                </small>
+                            </div>
+
+                            <small class="text-muted text-nowrap">
+                                @log.ActionDate.ToString("dd.MM.yyyy HH:mm")
+                            </small>
+                        </div>
+                    </div>
+
+                </div>
+            }
+
+        </div>
+    }
+
 </div>
-
-@if (Model == null || !Model.Any())
-{
-    <div class="alert alert-info">
-        No activity logs found.
-    </div>
-}
-else
-{
-    <div class="table-responsive">
-        <table class="table table-hover align-middle">
-            <thead class="table-dark">
-                <tr>
-                    <th>Action</th>
-                    <th>Description</th>
-                    <th>Performed By</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-
-            <tbody>
-                @foreach (var log in Model)
-                {
-                    <tr>
-                        <td>
-                            @if (log.Action == "Created")
-                            {
-                                <span class="badge bg-success">Created</span>
-                            }
-                            else if (log.Action == "Updated")
-                            {
-                                <span class="badge bg-warning text-dark">Updated</span>
-                            }
-                            else if (log.Action == "Deleted")
-                            {
-                                <span class="badge bg-danger">Deleted</span>
-                            }
-                            else
-                            {
-                                <span class="badge bg-secondary">@log.Action</span>
-                            }
-                        </td>
-
-                        <td>@log.Description</td>
-                        <td>@log.PerformedBy</td>
-                        <td>@log.ActionDate.ToString("dd.MM.yyyy HH:mm")</td>
-                    </tr>
-                }
-            </tbody>
-        </table>
-    </div>
-}

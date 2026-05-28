@@ -4,71 +4,97 @@
     ViewData["Title"] = "Edit Request";
 }
 
-<div class="row justify-content-center">
-    <div class="col-lg-8">
+<div class="form-page">
 
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <div>
-                <h2 class="fw-bold mb-1">Edit Request</h2>
-                <p class="text-muted mb-0">
-                    Update the request information below.
-                </p>
-            </div>
+    <div class="form-header">
+        <div>
+            <span class="page-kicker">Update internal request</span>
 
-            <a asp-action="Index" class="btn btn-outline-secondary">
-                Back to List
-            </a>
+            <h2 class="fw-bold mb-1">
+                Edit Request
+            </h2>
+
+            <p class="text-muted mb-0">
+                Update the request information and current status.
+            </p>
         </div>
 
-        <div class="card shadow-sm border-0">
-            <div class="card-body p-4">
+        <a asp-action="Index" class="btn btn-outline-secondary">
+            Back to List
+        </a>
+    </div>
 
-                <form asp-action="Edit" method="post">
-                    <input type="hidden" asp-for="Id" />
+    <div class="request-form-card">
 
-                    <div class="mb-3">
-                        <label asp-for="Title" class="form-label"></label>
-                        <input asp-for="Title" class="form-control" />
-                        <span asp-validation-for="Title" class="text-danger"></span>
-                    </div>
+        <form asp-action="Edit" method="post">
 
-                    <div class="mb-3">
-                        <label asp-for="Description" class="form-label"></label>
-                        <textarea asp-for="Description"
-                                  class="form-control"
-                                  rows="4"></textarea>
-                        <span asp-validation-for="Description" class="text-danger"></span>
-                    </div>
+            <input type="hidden" asp-for="Id" />
 
-                    <div class="mb-3">
-                        <label asp-for="RequestType" class="form-label"></label>
-                        <input asp-for="RequestType" class="form-control" />
-                        <span asp-validation-for="RequestType" class="text-danger"></span>
-                    </div>
+            <div class="row g-4">
 
-                    <div class="mb-4">
-                        <label asp-for="Status" class="form-label"></label>
+                <div class="col-md-6">
+                    <label asp-for="Title" class="form-label">
+                        Request Title
+                    </label>
 
-                        <select asp-for="Status" class="form-select">
-                            <option value="Pending">Pending</option>
-                            <option value="In Review">In Review</option>
-                            <option value="Approved">Approved</option>
-                            <option value="Rejected">Rejected</option>
-                        </select>
+                    <input asp-for="Title"
+                           class="form-control form-control-lg" />
 
-                        <span asp-validation-for="Status" class="text-danger"></span>
-                    </div>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                </div>
 
-                    <div class="d-grid">
-                        <button type="submit" class="btn btn-warning">
-                            Update Request
-                        </button>
-                    </div>
+                <div class="col-md-6">
+                    <label asp-for="RequestType" class="form-label">
+                        Request Type
+                    </label>
 
-                </form>
+                    <input asp-for="RequestType"
+                           class="form-control form-control-lg" />
+
+                    <span asp-validation-for="RequestType" class="text-danger"></span>
+                </div>
+
+                <div class="col-12">
+                    <label asp-for="Description" class="form-label">
+                        Description
+                    </label>
+
+                    <textarea asp-for="Description"
+                              class="form-control"
+                              rows="5"></textarea>
+
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label">
+                        Request Status
+                    </label>
+
+                    <select asp-for="Status" class="form-select form-select-lg">
+                        <option value="Pending">Pending</option>
+                        <option value="In Review">In Review</option>
+                        <option value="Approved">Approved</option>
+                        <option value="Rejected">Rejected</option>
+                    </select>
+
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
 
             </div>
-        </div>
+
+            <div class="form-actions">
+                <a asp-action="Index" class="btn btn-light">
+                    Cancel
+                </a>
+
+                <button type="submit" class="btn btn-warning px-4">
+                    Update Request
+                </button>
+            </div>
+
+        </form>
 
     </div>
+
 </div>

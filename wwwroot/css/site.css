@@ -351,3 +351,133 @@ footer {
 .requests-table-wrapper {
     overflow: visible !important;
 }
+
+
+
+
+/* LOGIN PAGE */
+
+.login-page {
+    display: grid;
+    grid-template-columns: 1fr 480px;
+    gap: 3rem;
+    align-items: center;
+    min-height: 75vh;
+}
+
+.login-left {
+    padding: 2rem;
+}
+
+.login-brand {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.login-logo {
+    width: 80px;
+    height: 80px;
+    border-radius: 24px;
+    background: linear-gradient(135deg, #111827, #1e293b);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+    font-weight: 800;
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.2);
+}
+
+.login-brand h1 {
+    font-size: 2.3rem;
+    font-weight: 800;
+    margin-bottom: 0.5rem;
+}
+
+.login-brand p {
+    color: #6b7280;
+    max-width: 500px;
+    margin: 0;
+}
+
+.login-features {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.feature-card {
+    background: white;
+    border-radius: 22px;
+    padding: 1.4rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 10px 25px rgba(15, 23, 42, 0.05);
+}
+
+    .feature-card h5 {
+        font-weight: 700;
+        margin-bottom: 0.4rem;
+    }
+
+    .feature-card p {
+        margin: 0;
+        color: #6b7280;
+    }
+
+.login-right {
+    display: flex;
+    justify-content: center;
+}
+
+.login-card {
+    width: 100%;
+    background: white;
+    border-radius: 30px;
+    padding: 2.5rem;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 25px 50px rgba(15, 23, 42, 0.08);
+}
+
+.login-title {
+    font-size: 2rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+}
+
+.login-subtitle {
+    color: #6b7280;
+    margin-bottom: 2rem;
+}
+
+.login-input {
+    height: 52px;
+    border-radius: 14px;
+}
+
+.login-btn {
+    height: 52px;
+    border-radius: 14px;
+    background: linear-gradient(90deg, #111827, #1f2937);
+    border: none;
+    color: white;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+    .login-btn:hover {
+        transform: translateY(-2px);
+        opacity: 0.95;
+    }
+
+@media (max-width: 992px) {
+
+    .login-page {
+        grid-template-columns: 1fr;
+    }
+
+    .login-left {
+        display: none;
+    }
+}

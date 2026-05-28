@@ -457,13 +457,14 @@ footer {
 }
 
 .login-btn {
-    height: 52px;
-    border-radius: 14px;
-    background: linear-gradient(90deg, #111827, #1f2937);
+    height: 64px;
+    border-radius: 18px;
     border: none;
-    color: white;
-    font-weight: 600;
-    transition: 0.3s ease;
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white !important;
+    font-weight: 700;
+    font-size: 1.05rem;
+    transition: all 0.3s ease;
 }
 
     .login-btn:hover {
@@ -480,6 +481,15 @@ footer {
     .login-left {
         display: none;
     }
+}
+
+.login-btn:hover,
+.login-btn:focus,
+.login-btn:active {
+    background: linear-gradient(135deg, #111827, #1f2937) !important;
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(15, 23, 42, 0.25);
 }
 
 /* POLISH ANIMATIONS */

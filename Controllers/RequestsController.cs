@@ -336,6 +336,12 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to delete requests.";
+                return RedirectToAction("Index");
+            }
+
             var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
@@ -352,6 +358,12 @@ namespace InternalRequestSystem.Controllers
             if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to delete requests.";
+                return RedirectToAction("Index");
             }
 
             var request = _context.Requests.Include(r => r.Approvals).FirstOrDefault(r => r.Id == id);

@@ -245,6 +245,7 @@ namespace InternalRequestSystem.Controllers
             }
 
             request.Status = "Pending";
+            request.CreatedDate = DateTime.Now;
             request.SubmittedByName = HttpContext.Session.GetString("FullName") ?? "";
             request.SubmittedByEmail = HttpContext.Session.GetString("Email") ?? "";
 

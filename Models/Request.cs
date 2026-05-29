@@ -17,6 +17,8 @@ namespace InternalRequestSystem.Models
 
         public string Status { get; set; } = "Pending";
 
+        public DateTime CreatedDate { get; set; } = DateTime.Now;
+
         public string SubmittedByName { get; set; } = string.Empty;
         public string SubmittedByEmail { get; set; } = string.Empty;
 

@@ -106,6 +106,7 @@ else
                     <th>Id</th>
                     <th>Title</th>
                     <th>Request Type</th>
+                    <th>Created Date</th>
                     <th>Status</th>
                     <th>Submitted By</th>
                     <th>Department</th>
@@ -125,6 +126,10 @@ else
 
                         <td>
                             @item.RequestType
+                        </td>
+
+                        <td>
+                            @item.CreatedDate.ToString("dd.MM.yyyy HH:mm")
                         </td>
 
                         <td>

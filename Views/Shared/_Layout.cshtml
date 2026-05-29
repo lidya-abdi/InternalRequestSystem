@@ -130,12 +130,15 @@
                 </div>
 
                 <div class="sidebar-footer">
-                    <p class="mb-2 text-white-50 small">
-                        @Context.Session.GetString("FullName")
-                    </p>
-                    <p class="mb-3 text-white-50 small">
-                        Role: @role
-                    </p>
+                    <div class="mb-3">
+                        <p class="mb-1 text-white-50 small">
+                            @Context.Session.GetString("FullName")
+                        </p>
+
+                        <span class="badge bg-light text-dark">
+                            @role
+                        </span>
+                    </div>
 
                     <a asp-controller="Account"
                        asp-action="Logout"

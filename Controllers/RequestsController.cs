@@ -18,6 +18,12 @@ namespace InternalRequestSystem.Controllers
             [HttpPost]
             public IActionResult Approve(int id)
             {
+                if (!CanManageRequests())
+                {
+                    TempData["ErrorMessage"] = "You are not authorized to perform this action.";
+                    return RedirectToAction("Index");
+                }
+
                 var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
                 if (request == null)
@@ -53,6 +59,12 @@ namespace InternalRequestSystem.Controllers
             [HttpPost]
             public IActionResult Reject(int id)
             {
+                if (!CanManageRequests())
+                {
+                    TempData["ErrorMessage"] = "You are not authorized to perform this action.";
+                    return RedirectToAction("Index");
+                }
+
                 var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
                 if (request == null)
@@ -88,6 +100,12 @@ namespace InternalRequestSystem.Controllers
         [HttpPost]
         public IActionResult MarkInReview(int id)
         {
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to perform this action.";
+                return RedirectToAction("Index");
+            }
+
             var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
@@ -117,6 +135,13 @@ namespace InternalRequestSystem.Controllers
             var role = HttpContext.Session.GetString("Role");
 
             return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(role);
+        }
+
+        private bool CanManageRequests()
+        {
+            var role = HttpContext.Session.GetString("Role");
+
+            return role == "Manager" || role == "Admin";
         }
 
         private void AddRequestLog(int? requestId, string action, string description)

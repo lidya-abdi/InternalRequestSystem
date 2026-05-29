@@ -162,6 +162,24 @@
                                 </div>
                             </div>
                         }
+                        @if (TempData["ErrorMessage"] != null)
+                        {
+                            <div class="toast-container position-fixed top-0 end-0 p-3">
+                                <div class="toast align-items-center text-bg-danger border-0" id="errorToast"
+                                     role="alert">
+                                    <div class="d-flex">
+                                        <div class="toast-body">
+                                            @TempData["ErrorMessage"]
+                                        </div>
+
+                                        <button type="button"
+                                                class="btn-close btn-close-white me-2 m-auto"
+                                                data-bs-dismiss="toast">
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        }
 
                         @RenderBody()
                     </div>
@@ -203,7 +221,7 @@
                 document.querySelector(".app-layout").classList.toggle("sidebar-collapsed");
             });
 
-                        const notificationToggle =
+            const notificationToggle =
                 document.getElementById("notificationToggle");
 
             const notificationPopup =
@@ -235,6 +253,15 @@
                 toast.show();
             }
 
+            const errorToastElement = document.getElementById('errorToast');
+
+            if (errorToastElement) {
+                const errorToast = new bootstrap.Toast(errorToastElement, {
+                    delay: 4000
+                });
+
+                errorToast.show();
+            }
         </script>
     }
 

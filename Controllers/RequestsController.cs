@@ -158,7 +158,7 @@ namespace InternalRequestSystem.Controllers
             _context.RequestLogs.Add(log);
         }
 
-        public IActionResult Index(string? searchText, string? statusFilter, int? departmentFilter)
+        public IActionResult Index(string? searchText, string? statusFilter, int? departmentFilter, int page = 1)
         {
             if (!IsUserLoggedIn())
             {
@@ -195,7 +195,21 @@ namespace InternalRequestSystem.Controllers
             ViewBag.Departments = _context.Departments.ToList();
             ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
 
-            return View(requests.ToList());
+            int pageSize = 5;
+
+            var totalItems = requests.Count();
+            var totalPages = (int)Math.Ceiling(totalItems / (double)pageSize);
+
+            var pagedRequests = requests
+                .OrderByDescending(r => r.Id)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.CurrentPage = page;
+            ViewBag.TotalPages = totalPages;
+
+            return View(pagedRequests);
         }
 
         [HttpGet]

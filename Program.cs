@@ -28,6 +28,72 @@ using (var scope = app.Services.CreateScope())
         );
         context.SaveChanges();
     }
+
+    if (!context.Roles.Any())
+    {
+        context.Roles.AddRange(
+            new Role { RoleName = "Employee" },
+            new Role { RoleName = "Manager" },
+            new Role { RoleName = "Admin" }
+        );
+
+        context.SaveChanges();
+    }
+
+    var itDepartment = context.Departments.First(d => d.DepartmentName == "IT");
+    var hrDepartment = context.Departments.First(d => d.DepartmentName == "HR");
+    var financeDepartment = context.Departments.First(d => d.DepartmentName == "Finance");
+
+    var employeeRole = context.Roles.First(r => r.RoleName == "Employee");
+    var managerRole = context.Roles.First(r => r.RoleName == "Manager");
+    var adminRole = context.Roles.First(r => r.RoleName == "Admin");
+
+    if (!context.AppUsers.Any(u => u.Email == "lidya.employee@internal.com"))
+    {
+        context.AppUsers.Add(new AppUser
+        {
+            FullName = "lidya",
+            Email = "lidya.employee@internal.com",
+            DepartmentId = itDepartment.Id,
+            RoleId = employeeRole.Id
+        });
+    }
+
+    if (!context.AppUsers.Any(u => u.Email == "ahmad.employee@internal.com"))
+    {
+        context.AppUsers.Add(new AppUser
+        {
+            FullName = "ahmad",
+            Email = "ahmad.employee@internal.com",
+            DepartmentId = itDepartment.Id,
+            RoleId = employeeRole.Id
+        });
+    }
+
+    if (!context.AppUsers.Any(u => u.Email == "sara.manager@internal.com"))
+    {
+        context.AppUsers.Add(new AppUser
+        {
+            FullName = "sara",
+            Email = "sara.manager@internal.com",
+            DepartmentId = hrDepartment.Id,
+            RoleId = managerRole.Id
+        });
+    }
+
+    if (!context.AppUsers.Any(u => u.Email == "admin.admin@internal.com"))
+    {
+        context.AppUsers.Add(new AppUser
+        {
+            FullName = "admin",
+            Email = "admin.admin@internal.com",
+            DepartmentId = financeDepartment.Id,
+            RoleId = adminRole.Id
+        });
+    }
+
+    context.SaveChanges();
+
 }
 
 // Configure the HTTP request pipeline.

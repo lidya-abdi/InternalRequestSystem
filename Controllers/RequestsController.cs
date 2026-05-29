@@ -275,6 +275,12 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to edit requests.";
+                return RedirectToAction("Index");
+            }
+
             var request = _context.Requests.FirstOrDefault(r => r.Id == id);
 
             if (request == null)
@@ -289,6 +295,12 @@ namespace InternalRequestSystem.Controllers
             if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to edit requests.";
+                return RedirectToAction("Index");
             }
 
             if (!ModelState.IsValid)

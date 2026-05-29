@@ -67,18 +67,13 @@
                 </div>
 
                 <div class="col-md-6">
-                    <label asp-for="Status" class="form-label">
-                        Request Status
+                    <label class="form-label">
+                        Current Status
                     </label>
 
-                    <select asp-for="Status" class="form-select form-select-lg">
-                        <option value="Pending">Pending</option>
-                        <option value="In Review">In Review</option>
-                        <option value="Approved">Approved</option>
-                        <option value="Rejected">Rejected</option>
-                    </select>
-
-                    <span asp-validation-for="Status" class="text-danger"></span>
+                    <div class="form-control form-control-lg bg-light">
+                        @Model.Status
+                    </div>
                 </div>
 
             </div>

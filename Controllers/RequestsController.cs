@@ -318,7 +318,7 @@ namespace InternalRequestSystem.Controllers
             request.Title = updatedRequest.Title;
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
-            request.Status = updatedRequest.Status;
+            
 
             AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.");
 

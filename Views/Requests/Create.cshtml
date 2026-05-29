@@ -73,7 +73,7 @@
                     </label>
 
                     <select asp-for="DepartmentId" class="form-select form-select-lg">
-                        <option value="">Select Department</option>
+                        <option value="0">Select Department</option>
 
                         @foreach (var dept in ViewBag.Departments)
                         {
@@ -103,6 +103,11 @@
     </div>
 
 </div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}
+
 	<!--
 
 asp-for      	بيربط مع Model

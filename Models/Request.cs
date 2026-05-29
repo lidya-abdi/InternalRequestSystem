@@ -19,7 +19,10 @@ namespace InternalRequestSystem.Models
 
         public string SubmittedByName { get; set; } = string.Empty;
         public string SubmittedByEmail { get; set; } = string.Empty;
+
         // Foreign key for Department association (Department 1 ---- * Requests)
+
+        [Range(1, int.MaxValue, ErrorMessage = "Please select a department")]
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
 

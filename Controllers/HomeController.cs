@@ -23,6 +23,7 @@ namespace InternalRequestSystem.Controllers
 
             ViewBag.TotalRequests = _context.Requests.Count();
             ViewBag.PendingRequests = _context.Requests.Count(r => r.Status == "Pending");
+            ViewBag.NotificationCount = ViewBag.PendingRequests;
             ViewBag.ApprovedRequests = _context.Requests.Count(r => r.Status == "Approved");
             ViewBag.RejectedRequests = _context.Requests.Count(r => r.Status == "Rejected");
             ViewBag.DepartmentsCount = _context.Departments.Count();

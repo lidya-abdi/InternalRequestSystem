@@ -193,6 +193,7 @@ namespace InternalRequestSystem.Controllers
             ViewBag.StatusFilter = statusFilter;
             ViewBag.DepartmentFilter = departmentFilter;
             ViewBag.Departments = _context.Departments.ToList();
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
 
             return View(requests.ToList());
         }
@@ -206,6 +207,7 @@ namespace InternalRequestSystem.Controllers
             }
 
             ViewBag.Departments = _context.Departments.ToList();
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
 
             return View();
         }
@@ -263,6 +265,7 @@ namespace InternalRequestSystem.Controllers
                 .Where(l => l.RequestId == id)
                 .OrderByDescending(l => l.ActionDate)
                 .ToList();
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
 
             return View(request);
         }
@@ -287,6 +290,9 @@ namespace InternalRequestSystem.Controllers
             {
                 return NotFound();
             }
+
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
+
             return View(request);
         }
         [HttpPost]
@@ -349,6 +355,8 @@ namespace InternalRequestSystem.Controllers
                 return NotFound();
             }
 
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
+
             return View(request);
         }
 
@@ -398,6 +406,8 @@ namespace InternalRequestSystem.Controllers
             var logs = _context.RequestLogs
                 .OrderByDescending(l => l.ActionDate)
                 .ToList();
+
+            ViewBag.NotificationCount = _context.Requests.Count(r => r.Status == "Pending");
 
             return View(logs);
         }

@@ -60,9 +60,15 @@
 
                                     <i class="bi bi-bell sidebar-icon"></i>
 
-                                    <span class="notification-badge">
-                                        3
-                                    </span>
+                                    @if (role == "Manager" || role == "Admin")
+                                    {
+                                        if (ViewBag.NotificationCount != null && ViewBag.NotificationCount > 0)
+                                        {
+                                            <span class="notification-badge">
+                                                @ViewBag.NotificationCount
+                                            </span>
+                                        }
+                                    }
 
                                 </div>
 

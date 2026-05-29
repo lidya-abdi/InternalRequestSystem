@@ -316,7 +316,7 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = _context.Requests.FirstOrDefault(r => r.Id == id);
+            var request = _context.Requests.Include(r => r.Approvals).FirstOrDefault(r => r.Id == id);
 
             if (request == null)
             {
@@ -324,6 +324,11 @@ namespace InternalRequestSystem.Controllers
             }
 
             AddRequestLog(request.Id, "Deleted", $"Request '{request.Title}' was deleted.");
+
+            if (request.Approvals != null && request.Approvals.Any())
+            {
+                _context.Approvals.RemoveRange(request.Approvals);
+            }
 
             _context.Requests.Remove(request);
             _context.SaveChanges();

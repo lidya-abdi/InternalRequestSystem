@@ -114,8 +114,9 @@ namespace InternalRequestSystem.Controllers
         {
             var fullName = HttpContext.Session.GetString("FullName");
             var email = HttpContext.Session.GetString("Email");
+            var role = HttpContext.Session.GetString("Role");
 
-            return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email);
+            return !string.IsNullOrEmpty(fullName) && !string.IsNullOrEmpty(email) && !string.IsNullOrEmpty(role);
         }
 
         private void AddRequestLog(int? requestId, string action, string description)

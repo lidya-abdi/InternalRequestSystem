@@ -22,6 +22,7 @@ namespace InternalRequestSystem.Controllers
             // Store user info in session
             HttpContext.Session.SetString("FullName", model.FullName);
             HttpContext.Session.SetString("Email", model.Email);
+            HttpContext.Session.SetString("Role", model.Role);
 
             // Redirect to the request submission page after successful login
             return RedirectToAction("Index", "Home");

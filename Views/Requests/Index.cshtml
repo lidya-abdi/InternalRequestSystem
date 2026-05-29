@@ -1,7 +1,13 @@
-﻿@model List<InternalRequestSystem.Models.Request>
+﻿@using Microsoft.AspNetCore.Http
+@model List<InternalRequestSystem.Models.Request>
 
 @{
     ViewData["Title"] = "Requests List";
+}
+
+@{
+    var role = Context.Session.GetString("Role");
+    bool canManage = role == "Manager" || role == "Admin";
 }
 
 <div class="d-flex justify-content-between align-items-center mb-4">
@@ -183,43 +189,40 @@ else
                                         </a>
                                     </li>
 
-                                    <li><hr class="dropdown-divider"></li>
+                                    @if (canManage)
+                                    {
+                                        <li><hr class="dropdown-divider"></li>
 
-                                    <li>
-                                        <form asp-action="Approve"
-                                              asp-route-id="@item.Id"
-                                              method="post">
+                                        <li>
+                                            <form asp-action="Approve"
+                                                  asp-route-id="@item.Id"
+                                                  method="post">
+                                                <button type="submit" class="dropdown-item text-success">
+                                                    Approve
+                                                </button>
+                                            </form>
+                                        </li>
 
-                                            <button type="submit"
-                                                    class="dropdown-item text-success">
-                                                Approve
-                                            </button>
-                                        </form>
-                                    </li>
+                                        <li>
+                                            <form asp-action="Reject"
+                                                  asp-route-id="@item.Id"
+                                                  method="post">
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    Reject
+                                                </button>
+                                            </form>
+                                        </li>
 
-                                    <li>
-                                        <form asp-action="Reject"
-                                              asp-route-id="@item.Id"
-                                              method="post">
-
-                                            <button type="submit"
-                                                    class="dropdown-item text-danger">
-                                                Reject
-                                            </button>
-                                        </form>
-                                    </li>
-
-                                    <li>
-                                        <form asp-action="MarkInReview"
-                                              asp-route-id="@item.Id"
-                                              method="post">
-
-                                            <button type="submit"
-                                                    class="dropdown-item text-primary">
-                                                In Review
-                                            </button>
-                                        </form>
-                                    </li>
+                                        <li>
+                                            <form asp-action="MarkInReview"
+                                                  asp-route-id="@item.Id"
+                                                  method="post">
+                                                <button type="submit" class="dropdown-item text-primary">
+                                                    In Review
+                                                </button>
+                                            </form>
+                                        </li>
+                                    }
 
                                 </ul>
 

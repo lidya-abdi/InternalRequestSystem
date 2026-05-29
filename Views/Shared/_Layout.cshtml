@@ -5,6 +5,8 @@
     var isLoggedIn =
         !string.IsNullOrEmpty(Context.Session.GetString("FullName")) &&
         !string.IsNullOrEmpty(Context.Session.GetString("Email"));
+
+    var role = Context.Session.GetString("Role");
 }
 
 <!DOCTYPE html>
@@ -124,6 +126,9 @@
                 <div class="sidebar-footer">
                     <p class="mb-2 text-white-50 small">
                         @Context.Session.GetString("FullName")
+                    </p>
+                    <p class="mb-3 text-white-50 small">
+                        Role: @role
                     </p>
 
                     <a asp-controller="Account"

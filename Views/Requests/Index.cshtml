@@ -173,21 +173,24 @@ else
                                         </a>
                                     </li>
 
-                                    <li>
-                                        <a class="dropdown-item"
-                                           asp-action="Edit"
-                                           asp-route-id="@item.Id">
-                                            Edit
-                                        </a>
-                                    </li>
+                                    @if (canManage)
+                                    {
+                                        <li>
+                                            <a class="dropdown-item"
+                                               asp-action="Edit"
+                                               asp-route-id="@item.Id">
+                                                Edit
+                                            </a>
+                                        </li>
 
-                                    <li>
-                                        <a class="dropdown-item text-danger"
-                                           asp-action="Delete"
-                                           asp-route-id="@item.Id">
-                                            Delete
-                                        </a>
-                                    </li>
+                                        <li>
+                                            <a class="dropdown-item text-danger"
+                                               asp-action="Delete"
+                                               asp-route-id="@item.Id">
+                                                Delete
+                                            </a>
+                                        </li>
+                                    }
 
                                     @if (canManage)
                                     {

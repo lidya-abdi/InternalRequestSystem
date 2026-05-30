@@ -50,7 +50,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasIndex("RoleId");
 
-                    b.ToTable("AppUsers");
+                    b.ToTable("AppUsers", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.Approval", b =>
@@ -83,7 +83,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasIndex("RequestId");
 
-                    b.ToTable("Approvals");
+                    b.ToTable("Approvals", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.Department", b =>
@@ -100,7 +100,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Departments");
+                    b.ToTable("Departments", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.Request", b =>
@@ -150,7 +150,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Requests");
+                    b.ToTable("Requests", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.RequestLog", b =>
@@ -181,7 +181,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("RequestLogs");
+                    b.ToTable("RequestLogs", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.Role", b =>
@@ -198,7 +198,7 @@ namespace InternalRequestSystem.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Roles");
+                    b.ToTable("Roles", (string)null);
                 });
 
             modelBuilder.Entity("InternalRequestSystem.Models.AppUser", b =>

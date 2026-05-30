@@ -82,13 +82,14 @@
                                     Notifications
                                 </h6>
 
-                                <a asp-controller="Requests"
-                                   asp-action="Logs"
-                                   class="notification-item">
-
-                                    View latest activities
-
-                                </a>
+                                @if (role == "Manager" || role == "Admin")
+                                {
+                                    <a asp-controller="Requests"
+                                       asp-action="Logs"
+                                       class="notification-item">
+                                        View latest activities
+                                    </a>
+                                }
 
                             </div>
 
@@ -110,12 +111,15 @@
                             <span>Requests</span>
                         </a>
 
-                        <a asp-controller="Requests"
-                           asp-action="Logs"
-                           class="sidebar-link @(currentController == "Requests" && currentAction == "Logs" ? "active" : "")">
-                            <i class="bi bi-clock-history sidebar-icon"></i>
-                            <span>Activity Logs</span>
-                        </a>
+                        @if (role == "Manager" || role == "Admin")
+                        {
+                            <a asp-controller="Requests"
+                               asp-action="Logs"
+                               class="sidebar-link @(currentController == "Requests" && currentAction == "Logs" ? "active" : "")">
+                                <i class="bi bi-clock-history sidebar-icon"></i>
+                                <span>Activity Logs</span>
+                            </a>
+                        }
 
                         <div class="sidebar-divider"></div>
 

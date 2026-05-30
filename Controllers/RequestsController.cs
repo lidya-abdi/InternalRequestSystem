@@ -74,28 +74,28 @@ namespace InternalRequestSystem.Controllers
 
                 request.Status = "Rejected";
 
-            var approval = new Approval
-            {
-                RequestId = request.Id,
-                Decision = "Rejected",
-                ApprovedByUserId = null,
-                Comment = "Request rejected."
-            };
+                var approval = new Approval
+                {
+                    RequestId = request.Id,
+                    Decision = "Rejected",
+                    ApprovedByUserId = null,
+                    Comment = "Request rejected."
+                };
 
-            _context.Approvals.Add(approval);
+                _context.Approvals.Add(approval);
 
-            AddRequestLog(
-                request.Id,
-                "Rejected",
-                $"Request '{request.Title}' was rejected."
-            );
+                AddRequestLog(
+                    request.Id,
+                    "Rejected",
+                    $"Request '{request.Title}' was rejected."
+                );
 
-            _context.SaveChanges();
+                _context.SaveChanges();
 
-            TempData["SuccessMessage"] = "Request rejected successfully.";
+                TempData["SuccessMessage"] = "Request rejected successfully.";
 
-            return RedirectToAction("Index");
-        }
+                return RedirectToAction("Index");
+            }
 
         [HttpPost]
         public IActionResult MarkInReview(int id)
@@ -170,6 +170,14 @@ namespace InternalRequestSystem.Controllers
             var requests = _context.Requests
                 .Include(r => r.Department)
                 .AsQueryable();
+
+            var role = HttpContext.Session.GetString("Role");
+            var email = HttpContext.Session.GetString("Email");
+
+            if (role == "Employee")
+            {
+                requests = requests.Where(r => r.SubmittedByEmail == email);
+            }
 
             if (!string.IsNullOrWhiteSpace(searchText))
             {
@@ -416,6 +424,12 @@ namespace InternalRequestSystem.Controllers
             if (!IsUserLoggedIn())
             {
                 return RedirectToAction("Login", "Account");
+            }
+
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to view logs.";
+                return RedirectToAction("Index");
             }
 
             var logs = _context.RequestLogs

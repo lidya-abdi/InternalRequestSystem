@@ -19,22 +19,39 @@ namespace InternalRequestSystem.Controllers
 
         public IActionResult Index()
         {
-            ViewBag.FullName = HttpContext.Session.GetString("FullName") ?? "User";
+            var fullName = HttpContext.Session.GetString("FullName") ?? "User";
+            var email = HttpContext.Session.GetString("Email");
+            var role = HttpContext.Session.GetString("Role");
 
-            ViewBag.TotalRequests = _context.Requests.Count();
-            ViewBag.PendingRequests = _context.Requests.Count(r => r.Status == "Pending");
-            ViewBag.NotificationCount = ViewBag.PendingRequests;
-            ViewBag.ApprovedRequests = _context.Requests.Count(r => r.Status == "Approved");
-            ViewBag.RejectedRequests = _context.Requests.Count(r => r.Status == "Rejected");
+            ViewBag.FullName = fullName;
+
+            var requestsQuery = _context.Requests
+                .Include(r => r.Department)
+                .AsQueryable();
+
+            if (role == "Employee")
+            {
+                requestsQuery = requestsQuery
+                    .Where(r => r.SubmittedByEmail.ToLower() == email.ToLower());
+            }
+
+            ViewBag.TotalRequests = requestsQuery.Count();
+            ViewBag.PendingRequests = requestsQuery.Count(r => r.Status == "Pending");
+            ViewBag.NotificationCount = requestsQuery.Count(r => r.Status == "Pending");
+            ViewBag.ApprovedRequests = requestsQuery.Count(r => r.Status == "Approved");
+            ViewBag.RejectedRequests = requestsQuery.Count(r => r.Status == "Rejected");
             ViewBag.DepartmentsCount = _context.Departments.Count();
 
-            ViewBag.LatestRequests = _context.Requests
-                .Include(r => r.Department)
+            ViewBag.LatestRequests = requestsQuery
                 .OrderByDescending(r => r.Id)
                 .Take(5)
                 .ToList();
 
+            var requestIds = requestsQuery.Select(r => r.Id).ToList();
+
             ViewBag.LatestActivities = _context.RequestLogs
+                .Where(l => role != "Employee" ||
+                            (l.RequestId != null && requestIds.Contains(l.RequestId.Value)))
                 .OrderByDescending(l => l.ActionDate)
                 .Take(5)
                 .ToList();

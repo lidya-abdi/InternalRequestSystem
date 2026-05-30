@@ -45,9 +45,14 @@ body {
     top: 0;
     height: 100vh;
     transition: width 0.25s ease;
-    overflow: visible;
+    overflow-y: auto;
+    overflow-x: visible;
     z-index: 10;
 }
+
+    .app-sidebar::-webkit-scrollbar {
+        width: 0;
+    }
 
 .sidebar-toggle {
     width: 54px;

@@ -122,20 +122,23 @@ Handle requests and connect Models with Views.
 
 ### Login Page
 
-(Add screenshot here)
+![Login](docs/images/login.png)
+
+### Dashboard
+
+![Dashboard](docs/images/dashboard.png)
 
 ### Request List
 
-(Add screenshot here)
+![Requests](docs/images/request-list.png)
 
 ### Create Request
 
-(Add screenshot here)
+![Create Request](docs/images/create-request.png)
 
 ### Activity Logs
 
-(Add screenshot here)
-
+![Logs](docs/images/activity-logs.png)
 ---
 
 ## Installation

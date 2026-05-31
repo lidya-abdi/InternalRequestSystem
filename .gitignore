@@ -361,3 +361,14 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+
+appsettings.Development.json
+
+# Local database files
+*.mdf
+*.ldf
+*.bak
+
+# Publish / secrets
+*.publishsettings
+*.pubxml

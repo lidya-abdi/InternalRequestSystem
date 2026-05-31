@@ -120,9 +120,13 @@ Handle requests and connect Models with Views.
 
 ## Screenshots
 
+### Login Page
+
+![Login Page](docs/images/login.png)
+
 ### Dashboard
 
-![Dashboard](docs/images/dashboard.png)
+![Dashboard](docs/images/Dashboard.png)
 
 ### Request List
 
@@ -132,14 +136,13 @@ Handle requests and connect Models with Views.
 
 ![Create Request](docs/images/create-request.png)
 
-### Delete Request
+### Delete Confirmation
 
-![Delete Request](docs/images/delete-request.png)
+![Delete Confirmation](docs/images/Delete%20Confirmation.png)
 
 ### Activity Logs
 
 ![Activity Logs](docs/images/activity-logs.png)
-
 
 ---
 

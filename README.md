@@ -49,12 +49,23 @@ This project was developed for the Internet Programming course and focuses on MV
 
 ---
 
+## Key Highlights
+
+- Role-based request management
+- Approval workflow tracking
+- Activity logging system
+- Responsive Bootstrap interface
+- Entity Framework Core integration
+- Validation using Data Annotations
+
+---
+
 ## Technologies Used
 
 - ASP.NET Core MVC
 - C#
 - Entity Framework Core
-- SQL Server LocalDB
+- SQL Server (LocalDB for development)
 - Razor Pages
 - HTML
 - CSS

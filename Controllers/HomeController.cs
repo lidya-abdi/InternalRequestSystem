@@ -11,6 +11,7 @@ namespace InternalRequestSystem.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _context;
 
+        //AppDbContext dependency injection ile HomeController’a geliyor. Bu sayede Controller içinde veritabaný tablolarýna eriþebiliyorum.
         public HomeController(ILogger<HomeController> logger, AppDbContext context)
         {
             _logger = logger;

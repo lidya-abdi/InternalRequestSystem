@@ -162,7 +162,7 @@ Handle requests and connect Models with Views.
 Clone the repository:
 
 ```bash
-git clone https://github.com/lidya-abdi/REPOSITORY_NAME.git
+git clone https://github.com/lidya-abdi/InternalRequestSystem.git
 ```
 
 Restore packages:

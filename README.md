@@ -66,7 +66,7 @@ This project was developed for the Internet Programming course and focuses on MV
 - C#
 - Entity Framework Core
 - SQL Server (LocalDB for development)
-- Razor Pages
+- Razor Views
 - HTML
 - CSS
 - Bootstrap

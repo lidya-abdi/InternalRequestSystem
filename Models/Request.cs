@@ -1,19 +1,14 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace InternalRequestSystem.Models
+﻿namespace InternalRequestSystem.Models
 {
     public class Request
     {
         public int Id { get; set; }
 
-        [Required(ErrorMessage = "Title is required")]
-        public string Title { get; set; } = string.Empty;
+        public string? Title { get; set; } 
 
-        [Required(ErrorMessage = "Description is required")]
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } 
 
-        [Required(ErrorMessage = "Request type is required")]
-        public string RequestType { get; set; } = string.Empty;
+        public string? RequestType { get; set; } 
 
         public string Status { get; set; } = "Pending";
 
@@ -22,9 +17,6 @@ namespace InternalRequestSystem.Models
         public string SubmittedByName { get; set; } = string.Empty;
         public string SubmittedByEmail { get; set; } = string.Empty;
 
-        // Foreign key for Department association (Department 1 ---- * Requests)
-
-        [Range(1, int.MaxValue, ErrorMessage = "Please select a department")]
         public int DepartmentId { get; set; }
         public Department? Department { get; set; }
 

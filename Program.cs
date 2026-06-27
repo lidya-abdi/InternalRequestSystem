@@ -4,19 +4,22 @@ using InternalRequestSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
 using InternalRequestSystem.Middleware;
 using Serilog;
+using FluentValidation;
+using FluentValidation.AspNetCore;
+using InternalRequestSystem.Validators;
 
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context, configuration) =>
-{
-    configuration
-        .WriteTo.Console()
-        .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day);
-});
-
+    configuration.ReadFrom.Configuration(context.Configuration));
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+
+builder.Services.AddFluentValidationAutoValidation();
+
+builder.Services.AddValidatorsFromAssemblyContaining<RequestValidator>();
+
 // Configure Entity Framework Core with SQL Server
 builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
    builder.Configuration.GetConnectionString("DefaultConnection")));

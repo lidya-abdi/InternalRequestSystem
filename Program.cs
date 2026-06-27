@@ -3,9 +3,17 @@ using InternalRequestSystem.Models;
 using InternalRequestSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
 using InternalRequestSystem.Middleware;
+using Serilog;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context, configuration) =>
+{
+    configuration
+        .WriteTo.Console()
+        .WriteTo.File("Logs/log-.txt", rollingInterval: RollingInterval.Day);
+});
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();

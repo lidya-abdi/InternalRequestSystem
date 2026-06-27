@@ -2,6 +2,7 @@ using InternalRequestSystem.Data;
 using InternalRequestSystem.Models;
 using InternalRequestSystem.Repositories;
 using Microsoft.EntityFrameworkCore;
+using InternalRequestSystem.Middleware;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
    builder.Configuration.GetConnectionString("DefaultConnection")));
 // Register the RequestRepository for dependency injection
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+
 // Add session services
 builder.Services.AddSession();
 
@@ -113,6 +115,10 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseSession(); // Enable session middleware
+
+// Add the global exception handling middleware 
+//Request --> GlobalExceptionMiddleware --> Controller --> Repository --> Response   ???? ???
+app.UseMiddleware<GlobalExceptionMiddleware>();
 
 app.UseAuthorization();
 

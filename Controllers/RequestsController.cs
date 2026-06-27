@@ -2,7 +2,6 @@
 using InternalRequestSystem.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace InternalRequestSystem.Controllers
 {

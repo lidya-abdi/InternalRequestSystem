@@ -1,4 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿
 
 namespace InternalRequestSystem.Models
 {
@@ -12,8 +12,7 @@ namespace InternalRequestSystem.Models
         public int? ApprovedByUserId { get; set; }
         public AppUser? ApprovedByUser { get; set; }
 
-        [Required]
-        public string Decision { get; set; } = "Pending";
+        public string? Decision { get; set; } = "Pending";
 
         public DateTime DecisionDate { get; set; } = DateTime.Now;
 

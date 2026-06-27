@@ -8,13 +8,13 @@ namespace InternalRequestSystem.Models
 
         public int? RequestId { get; set; }
 
-        [Required]
-        public string Action { get; set; } = string.Empty;
 
-        public string PerformedBy { get; set; } = string.Empty;
+        public string? Action { get; set; }
+
+        public string? PerformedBy { get; set; } 
 
         public DateTime ActionDate { get; set; } = DateTime.Now;
 
-        public string Description { get; set; } = string.Empty;
+        public string? Description { get; set; } 
     }
 }

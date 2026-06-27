@@ -6,8 +6,8 @@ namespace InternalRequestSystem.Models
     {
 
         public int Id { get; set; }
-        [Required(ErrorMessage = "Role name is required.")]
-        public string RoleName { get; set; } = string.Empty;
+        
+        public string? RoleName { get; set; } 
         public List<AppUser> Users { get; set; } = new List<AppUser>();
     }
 }

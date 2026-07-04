@@ -7,6 +7,7 @@ using Serilog;
 using FluentValidation;
 using FluentValidation.AspNetCore;
 using InternalRequestSystem.Validators;
+using InternalRequestSystem.Services;
 
 
 var builder = WebApplication.CreateBuilder(args);
@@ -25,6 +26,7 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
    builder.Configuration.GetConnectionString("DefaultConnection")));
 // Register the RequestRepository for dependency injection
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
+builder.Services.AddScoped<IRequestService, RequestService>();
 
 // Add session services
 builder.Services.AddSession();

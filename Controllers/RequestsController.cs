@@ -2,16 +2,17 @@
 using InternalRequestSystem.Repositories;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using InternalRequestSystem.Services;
 
 namespace InternalRequestSystem.Controllers
 {
     public class RequestsController : Controller
     {
-        private readonly IRequestRepository _requestRepository;
+        private readonly IRequestService _requestService;
 
-        public RequestsController(IRequestRepository requestRepository)
+        public RequestsController(IRequestService requestService)
         {
-            _requestRepository = requestRepository;
+            _requestService = requestService;
         }
 
         [HttpPost]
@@ -23,78 +24,43 @@ namespace InternalRequestSystem.Controllers
                     return RedirectToAction("Index");
                 }
 
-                var request = _requestRepository.GetById(id);
-
-            if (request == null)
-                {
-                    return NotFound();
-                }
-
-                request.Status = "Approved";
-
-                var approval = new Approval
-                {
-                    RequestId = request.Id,
-                    Decision = "Approved",
-                    ApprovedByUserId = null,
-                    Comment = "Request approved successfully."
-                };
-
-                _requestRepository.AddApproval(approval);
-
-                AddRequestLog(
-                    request.Id,
-                    "Approved",
-                    $"Request '{request.Title}' was approved."
-                );
-
-                _requestRepository.Save();
-
-                TempData["SuccessMessage"] = "Request approved successfully.";
-    
-                return RedirectToAction("Index");
-            }
-
-            [HttpPost]
-            public IActionResult Reject(int id)
-            {
-                if (!CanManageRequests())
-                {
-                    TempData["ErrorMessage"] = "You are not authorized to perform this action.";
-                    return RedirectToAction("Index");
-                }
-
-                var request = _requestRepository.GetById(id);
+                var request = _requestService.GetById(id);
 
                 if (request == null)
                 {
                     return NotFound();
                 }
 
-                request.Status = "Rejected";
+                _requestService.ApproveRequest(id);
 
-                var approval = new Approval
-                {
-                    RequestId = request.Id,
-                    Decision = "Rejected",
-                    ApprovedByUserId = null,
-                    Comment = "Request rejected."
-                };
+                TempData["SuccessMessage"] = "Request approved successfully.";
+    
+                return RedirectToAction("Index");
+                
+            }
 
-                _requestRepository.AddApproval(approval);
-
-                AddRequestLog(
-                    request.Id,
-                    "Rejected",
-                    $"Request '{request.Title}' was rejected."
-                );
-
-                _requestRepository.Save();
-
-                TempData["SuccessMessage"] = "Request rejected successfully.";
-
+        [HttpPost]
+        public IActionResult Reject(int id)
+        {
+            if (!CanManageRequests())
+            {
+                TempData["ErrorMessage"] = "You are not authorized to perform this action.";
                 return RedirectToAction("Index");
             }
+
+            var request = _requestService.GetById(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            _requestService.RejectRequest(id);
+
+            TempData["SuccessMessage"] = "Request rejected successfully.";
+
+            return RedirectToAction("Index");
+        }
 
         [HttpPost]
         public IActionResult MarkInReview(int id)
@@ -105,29 +71,21 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            var request = _requestRepository.GetById(id);
+            var request = _requestService.GetById(id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            request.Status = "In Review";
-
-            AddRequestLog(
-                request.Id,
-                "In Review",
-                $"Request '{request.Title}' moved to review stage."
-            );
-
-            _requestRepository.Save();
+            _requestService.MarkRequestInReview(id);
 
             TempData["SuccessMessage"] = "Request moved to review successfully.";
 
             return RedirectToAction("Index");
         }
 
-        private bool IsUserLoggedIn()
+          private bool IsUserLoggedIn()
         {
             var fullName = HttpContext.Session.GetString("FullName");
             var email = HttpContext.Session.GetString("Email");
@@ -143,19 +101,7 @@ namespace InternalRequestSystem.Controllers
             return role == "Manager" || role == "Admin";
         }
 
-        private void AddRequestLog(int? requestId, string action, string description)
-        {
-            var log = new RequestLog
-            {
-                RequestId = requestId,
-                Action = action,
-                Description = description,
-                PerformedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User",
-                ActionDate = DateTime.Now
-            };
 
-            _requestRepository.AddLog(log);
-        }
 
         public IActionResult Index(string? searchText, string? statusFilter, int? departmentFilter, int page = 1)
         {
@@ -166,39 +112,21 @@ namespace InternalRequestSystem.Controllers
 
             ViewBag.FullName = HttpContext.Session.GetString("FullName");
 
-            var requests = _requestRepository.GetAll();
-
             var role = HttpContext.Session.GetString("Role");
             var email = HttpContext.Session.GetString("Email");
 
-            if (role == "Employee")
-            {
-                requests = requests.Where(r => r.SubmittedByEmail == email);
-            }
-
-            if (!string.IsNullOrWhiteSpace(searchText))
-            {
-                requests = requests.Where(r =>
-                    r.Title.Contains(searchText) ||
-                    r.Description.Contains(searchText) ||
-                    r.RequestType.Contains(searchText));
-            }
-
-            if (!string.IsNullOrWhiteSpace(statusFilter))
-            {
-                requests = requests.Where(r => r.Status == statusFilter);
-            }
-
-            if (departmentFilter.HasValue)
-            {
-                requests = requests.Where(r => r.DepartmentId == departmentFilter.Value);
-            }
+            var requests = _requestService.GetRequestsForUser(
+                role,
+                email,
+                searchText,
+                statusFilter,
+                departmentFilter);
 
             ViewBag.SearchText = searchText;
             ViewBag.StatusFilter = statusFilter;
             ViewBag.DepartmentFilter = departmentFilter;
-            ViewBag.Departments = _requestRepository.GetDepartments();
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
+            ViewBag.Departments = _requestService.GetDepartments();
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
 
             int pageSize = 5;
 
@@ -225,9 +153,9 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            ViewBag.Departments = _requestRepository.GetDepartments();
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
-            
+            ViewBag.Departments = _requestService.GetDepartments();
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
+
             return View();
         }
         /*
@@ -245,20 +173,15 @@ namespace InternalRequestSystem.Controllers
 
             if (!ModelState.IsValid)
             {
-                ViewBag.Departments = _requestRepository.GetDepartments();
+                ViewBag.Departments = _requestService.GetDepartments();
+                ViewBag.NotificationCount = _requestService.CountPendingRequests();
                 return View(request);
             }
 
-            request.Status = "Pending";
-            request.CreatedDate = DateTime.Now;
-            request.SubmittedByName = HttpContext.Session.GetString("FullName") ?? "";
-            request.SubmittedByEmail = HttpContext.Session.GetString("Email") ?? "";
+            var fullName = HttpContext.Session.GetString("FullName") ?? "";
+            var email = HttpContext.Session.GetString("Email") ?? "";
 
-            _requestRepository.Add(request);
-            _requestRepository.Save();
-
-            AddRequestLog(request.Id, "Created", $"Request '{request.Title}' was created.");
-            _requestRepository.Save();
+            _requestService.CreateRequest(request, fullName, email);
 
             TempData["SuccessMessage"] = "Request created successfully.";
 
@@ -272,18 +195,15 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Login", "Account");
             }
 
-            var request = _requestRepository.GetByIdWithDepartment(id);
+            var request = _requestService.GetDetails(id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            ViewBag.RequestLogs = _requestRepository.GetLogs()
-                .Where(l => l.RequestId == id)
-                .OrderByDescending(l => l.ActionDate)
-                .ToList(); 
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
+            ViewBag.RequestLogs = _requestService.GetLogsByRequestId(id);
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
 
             return View(request);
         }
@@ -302,15 +222,15 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            var request = _requestRepository.GetById(id);
+            var request = _requestService.GetById(id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
-            
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
+
             return View(request);
         }
         [HttpPost]
@@ -332,21 +252,14 @@ namespace InternalRequestSystem.Controllers
                 return View(updatedRequest);
             }
 
-            var request = _requestRepository.GetById(updatedRequest.Id);
+            var request = _requestService.GetById(updatedRequest.Id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            request.Title = updatedRequest.Title;
-            request.Description = updatedRequest.Description;
-            request.RequestType = updatedRequest.RequestType;
-            
-
-            AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.");
-
-            _requestRepository.Save();
+            _requestService.UpdateRequest(updatedRequest);
 
             TempData["SuccessMessage"] = "Request updated successfully.";
 
@@ -366,14 +279,14 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            var request = _requestRepository.GetById(id);
+            var request = _requestService.GetById(id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
 
             return View(request);
         }
@@ -392,22 +305,14 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            var request = _requestRepository.GetByIdWithApprovals(id);
+            var request = _requestService.GetForDelete(id);
 
             if (request == null)
             {
                 return NotFound();
             }
 
-            AddRequestLog(request.Id, "Deleted", $"Request '{request.Title}' was deleted.");
-
-            if (request.Approvals != null && request.Approvals.Any())
-            {
-                _requestRepository.RemoveApprovals(request.Approvals);
-            }
-
-            _requestRepository.Delete(request);
-            _requestRepository.Save();
+            _requestService.DeleteRequest(id);
 
             TempData["SuccessMessage"] = "Request deleted successfully.";
 
@@ -427,11 +332,10 @@ namespace InternalRequestSystem.Controllers
                 return RedirectToAction("Index");
             }
 
-            var logs = _requestRepository.GetLogs()
-                .OrderByDescending(l => l.ActionDate)
-                .ToList();
+            var logs = _requestService.GetLogs();
 
-            ViewBag.NotificationCount = _requestRepository.CountPendingRequests();
+            ViewBag.NotificationCount = _requestService.CountPendingRequests();
+
             return View(logs);
         }
     }

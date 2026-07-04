@@ -72,11 +72,12 @@ namespace InternalRequestSystem.Services
             _requestRepository.Add(request);
             _requestRepository.Save();
 
-            AddRequestLog(request.Id, "Created", $"Request '{request.Title}' was created.");
+            AddRequestLog(request.Id, "Created", $"Request '{request.Title}' was created.", fullName);
+
             _requestRepository.Save();
         }
 
-        public void UpdateRequest(Request updatedRequest)
+        public void UpdateRequest(Request updatedRequest, string performedBy)
         {
             var request = _requestRepository.GetById(updatedRequest.Id);
 
@@ -89,12 +90,12 @@ namespace InternalRequestSystem.Services
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
 
-            AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.");
+            AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.", performedBy);
 
             _requestRepository.Save();
         }
 
-        public void DeleteRequest(int id)
+        public void DeleteRequest(int id, string performedBy)
         {
             var request = _requestRepository.GetByIdWithApprovals(id);
 
@@ -103,7 +104,7 @@ namespace InternalRequestSystem.Services
                 return;
             }
 
-            AddRequestLog(request.Id, "Deleted", $"Request '{request.Title}' was deleted.");
+            AddRequestLog(request.Id, "Deleted", $"Request '{request.Title}' was deleted.", performedBy);
 
             if (request.Approvals != null && request.Approvals.Any())
             {
@@ -114,7 +115,7 @@ namespace InternalRequestSystem.Services
             _requestRepository.Save();
         }
 
-        public void ApproveRequest(int id)
+        public void ApproveRequest(int id, string performedBy)
         {
             var request = _requestRepository.GetById(id);
 
@@ -133,12 +134,12 @@ namespace InternalRequestSystem.Services
                 Comment = "Request approved successfully."
             });
 
-            AddRequestLog(request.Id, "Approved", $"Request '{request.Title}' was approved.");
+            AddRequestLog(request.Id, "Approved", $"Request '{request.Title}' was approved.", performedBy);
 
             _requestRepository.Save();
         }
 
-        public void RejectRequest(int id)
+        public void RejectRequest(int id, string performedBy)
         {
             var request = _requestRepository.GetById(id);
 
@@ -157,12 +158,12 @@ namespace InternalRequestSystem.Services
                 Comment = "Request rejected."
             });
 
-            AddRequestLog(request.Id, "Rejected", $"Request '{request.Title}' was rejected.");
+            AddRequestLog(request.Id, "Rejected", $"Request '{request.Title}' was rejected.", performedBy);
 
             _requestRepository.Save();
         }
 
-        public void MarkRequestInReview(int id)
+        public void MarkRequestInReview(int id, string performedBy)
         {
             var request = _requestRepository.GetById(id);
 
@@ -173,7 +174,7 @@ namespace InternalRequestSystem.Services
 
             request.Status = "In Review";
 
-            AddRequestLog(request.Id, "In Review", $"Request '{request.Title}' moved to review stage.");
+            AddRequestLog(request.Id, "In Review", $"Request '{request.Title}' moved to review stage.", performedBy);
 
             _requestRepository.Save();
         }
@@ -203,14 +204,14 @@ namespace InternalRequestSystem.Services
             return _requestRepository.CountPendingRequests();
         }
 
-        private void AddRequestLog(int? requestId, string action, string description)
+        private void AddRequestLog(int? requestId, string action, string description, string performedBy)
         {
             var log = new RequestLog
             {
                 RequestId = requestId,
                 Action = action,
                 Description = description,
-                PerformedBy = "System",
+                PerformedBy = performedBy,
                 ActionDate = DateTime.Now
             };
 

@@ -31,7 +31,8 @@ namespace InternalRequestSystem.Controllers
                     return NotFound();
                 }
 
-                _requestService.ApproveRequest(id);
+                var performedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User";
+                _requestService.ApproveRequest(id, performedBy);
 
                 TempData["SuccessMessage"] = "Request approved successfully.";
     
@@ -55,7 +56,8 @@ namespace InternalRequestSystem.Controllers
                 return NotFound();
             }
 
-            _requestService.RejectRequest(id);
+            var performedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User";
+            _requestService.RejectRequest(id, performedBy);
 
             TempData["SuccessMessage"] = "Request rejected successfully.";
 
@@ -78,7 +80,8 @@ namespace InternalRequestSystem.Controllers
                 return NotFound();
             }
 
-            _requestService.MarkRequestInReview(id);
+            var performedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User";
+            _requestService.MarkRequestInReview(id, performedBy);
 
             TempData["SuccessMessage"] = "Request moved to review successfully.";
 
@@ -259,7 +262,8 @@ namespace InternalRequestSystem.Controllers
                 return NotFound();
             }
 
-            _requestService.UpdateRequest(updatedRequest);
+            var performedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User";
+            _requestService.UpdateRequest(updatedRequest, performedBy);
 
             TempData["SuccessMessage"] = "Request updated successfully.";
 
@@ -312,7 +316,8 @@ namespace InternalRequestSystem.Controllers
                 return NotFound();
             }
 
-            _requestService.DeleteRequest(id);
+            var performedBy = HttpContext.Session.GetString("FullName") ?? "Unknown User";
+            _requestService.DeleteRequest(id, performedBy);
 
             TempData["SuccessMessage"] = "Request deleted successfully.";
 

@@ -18,5 +18,6 @@ services:
     container_name: internal-request-app
     depends_on:
       - sqlserver
+    restart: on-failure
     ports:
       - "8080:8080"

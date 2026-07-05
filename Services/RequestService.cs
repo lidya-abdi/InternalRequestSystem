@@ -1,15 +1,19 @@
 ﻿using InternalRequestSystem.Models;
 using InternalRequestSystem.Repositories;
+using AutoMapper;
+
 
 namespace InternalRequestSystem.Services
 {
     public class RequestService : IRequestService
     {
         private readonly IRequestRepository _requestRepository;
+        private readonly IMapper _mapper;
 
-        public RequestService(IRequestRepository requestRepository)
+        public RequestService(IRequestRepository requestRepository, IMapper mapper)
         {
             _requestRepository = requestRepository;
+            _mapper = mapper;
         }
 
         public IQueryable<Request> GetRequestsForUser(
@@ -85,10 +89,15 @@ namespace InternalRequestSystem.Services
             {
                 return;
             }
+            // Use AutoMapper to map the updatedRequest properties to the existing request entity
+            _mapper.Map(updatedRequest, request);
 
+            //Before using AutoMapper, you can manually update the properties like this:
+            /*
             request.Title = updatedRequest.Title;
             request.Description = updatedRequest.Description;
             request.RequestType = updatedRequest.RequestType;
+            */
 
             AddRequestLog(request.Id, "Updated", $"Request '{request.Title}' was updated.", performedBy);
 

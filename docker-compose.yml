@@ -1,4 +1,4 @@
-version: '3.8'
+
 
 services:
 
@@ -19,5 +19,8 @@ services:
     depends_on:
       - sqlserver
     restart: on-failure
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Production"
+      ConnectionStrings__DefaultConnection: "Server=sqlserver,1433;Database=InternalRequestDb;User Id=sa;Password=YourStrong@Pass123;TrustServerCertificate=True;"
     ports:
       - "8080:8080"

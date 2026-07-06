@@ -9,9 +9,38 @@ using FluentValidation.AspNetCore;
 using InternalRequestSystem.Validators;
 using InternalRequestSystem.Services;
 using InternalRequestSystem.Mappings;
+using InternalRequestSystem.Configurations;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
+
+var jwtSettings = builder.Configuration.GetSection("Jwt").Get<JwtSettings>();
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+
+        ValidIssuer = jwtSettings.Issuer,
+        ValidAudience = jwtSettings.Audience,
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(jwtSettings.Key))
+    };
+});
 
 builder.Host.UseSerilog((context, configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
@@ -30,6 +59,8 @@ builder.Services.AddDbContext<AppDbContext>(options => options.UseSqlServer(
 // Register the RequestRepository for dependency injection
 builder.Services.AddScoped<IRequestRepository, RequestRepository>();
 builder.Services.AddScoped<IRequestService, RequestService>();
+
+builder.Services.AddScoped<ITokenService, TokenService>();
 
 // Add session services
 builder.Services.AddSession();
@@ -138,7 +169,9 @@ app.UseSession(); // Enable session middleware
 //Request --> GlobalExceptionMiddleware --> Controller --> Repository --> Response   ???? ???
 app.UseMiddleware<GlobalExceptionMiddleware>();
 
-app.UseAuthorization();
+app.UseAuthentication();  // Enable authentication middleware
+
+app.UseAuthorization();  
 
 app.MapControllerRoute(
     name: "default",

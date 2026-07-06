@@ -3,16 +3,19 @@ using InternalRequestSystem.Models;
 using Microsoft.AspNetCore.Http;
 using InternalRequestSystem.Data;
 using Microsoft.EntityFrameworkCore;
+using InternalRequestSystem.Services;
 
 namespace InternalRequestSystem.Controllers
 {
     public class AccountController : Controller
     {
         private readonly AppDbContext _context;
+        private readonly ITokenService _tokenService;
 
-        public AccountController(AppDbContext context)
+        public AccountController(AppDbContext context, ITokenService tokenService)
         {
             _context = context;
+            _tokenService = tokenService;
         }
 
         [HttpGet]
@@ -63,6 +66,19 @@ namespace InternalRequestSystem.Controllers
                 role == "employee" ? "Employee" :
                 role == "manager" ? "Manager" :
                 "Admin";
+
+            var user = _context.AppUsers
+                .Include(u => u.Role)
+                .FirstOrDefault(u => u.Email.ToLower() == email);
+
+            if (user == null)
+            {
+                ModelState.AddModelError("", "User not found in the system.");
+                return View(model);
+            }
+
+            var token = _tokenService.GenerateToken(user);
+            TempData["JwtToken"] = token;
 
             HttpContext.Session.SetString("FullName", model.FullName.Trim());
             HttpContext.Session.SetString("Email", model.Email.Trim());
